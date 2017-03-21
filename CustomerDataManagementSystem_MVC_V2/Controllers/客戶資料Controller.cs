@@ -14,6 +14,11 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
     {
         private 客戶資料DBEntities db = new 客戶資料DBEntities();
 
+
+        public ActionResult 客戶資料統計()
+        {
+            return View(db.客戶資料統計.ToList());
+        }
         // GET: 客戶資料
         public ActionResult Index()
         {

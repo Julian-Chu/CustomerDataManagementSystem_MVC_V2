@@ -213,6 +213,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>客戶資料DB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\客戶資料統計.cs">
+      <DependentUpon>客戶資料DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\客戶銀行資訊.cs">
       <DependentUpon>客戶資料DB.tt</DependentUpon>
     </Compile>
@@ -299,6 +302,7 @@
     <Content Include="Views\客戶銀行資訊\Details.cshtml" />
     <Content Include="Views\客戶銀行資訊\Edit.cshtml" />
     <Content Include="Views\客戶銀行資訊\Index.cshtml" />
+    <Content Include="Views\客戶資料\客戶資料統計.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
