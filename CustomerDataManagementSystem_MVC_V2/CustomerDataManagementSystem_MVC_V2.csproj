@@ -175,14 +175,28 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EFGeneratePartialClass.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>客戶資料DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.Partial.cs">
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\客戶聯絡人.cs">
       <DependentUpon>客戶資料DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\客戶聯絡人.Partial.cs">
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\客戶資料.cs">
       <DependentUpon>客戶資料DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\客戶資料.Partial.cs">
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\客戶資料DB.Context.cs">
       <AutoGen>True</AutoGen>
@@ -202,6 +216,9 @@
     <Compile Include="Models\客戶銀行資訊.cs">
       <DependentUpon>客戶資料DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\客戶銀行資訊.Partial.cs">
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +232,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\EFGeneratePartialClass.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EFGeneratePartialClass.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\客戶資料DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>客戶資料DB.edmx</DependentUpon>
