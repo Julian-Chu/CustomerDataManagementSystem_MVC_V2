@@ -1,0 +1,19 @@
+using NUnit.Framework;
+using NUnit.Core;
+
+namespace SeleniumTests
+{
+    public class LoginAndFieldValidation
+    {
+        [Suite] public static TestSuite Suite
+        {
+            get
+            {
+                TestSuite suite = new TestSuite("LoginAndFieldValidation");
+                suite.Add(new Untitled());
+                suite.Add(new Untitled 2());
+                return suite;
+            }
+        }
+    }
+}
