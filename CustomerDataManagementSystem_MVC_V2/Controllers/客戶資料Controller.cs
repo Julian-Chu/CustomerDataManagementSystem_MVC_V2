@@ -12,8 +12,17 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
     public class 客戶資料Controller : Controller
     {
-        private 客戶資料DBEntities db = new 客戶資料DBEntities();
+        private 客戶資料DBEntities db;
 
+        public 客戶資料Controller()
+        {
+            db = new 客戶資料DBEntities();
+        }
+
+        public 客戶資料Controller(客戶資料DBEntities mockDb)
+        {
+            db = mockDb;
+        }
 
         public ActionResult 客戶資料統計()
         {
@@ -22,7 +31,9 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         // GET: 客戶資料
         public ActionResult Index()
         {
-            return View(db.客戶資料.ToList());
+            var data = db.客戶資料.AsQueryable();
+            data = data.Where(p => p.是否已刪除 == false);
+            return View(data.ToList());
         }
 
         // GET: 客戶資料/Details/5
@@ -115,7 +126,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             客戶資料 客戶資料 = db.客戶資料.Find(id);
-            db.客戶資料.Remove(客戶資料);
+            //db.客戶資料.Remove(客戶資料);
+            客戶資料.是否已刪除 = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -12,12 +12,24 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
     public class 客戶聯絡人Controller : Controller
     {
-        private 客戶資料DBEntities db = new 客戶資料DBEntities();
+        private 客戶資料DBEntities db;
 
-        // GET: 客戶聯絡人
-        public ActionResult Index()
+        public 客戶聯絡人Controller()
         {
-            var 客戶聯絡人 = db.客戶聯絡人.Include(客 => 客.客戶資料);
+            db = new 客戶資料DBEntities();
+        }
+
+        public 客戶聯絡人Controller(客戶資料DBEntities mockDBContext)
+        {
+            db = mockDBContext;
+        }
+
+    
+
+    // GET: 客戶聯絡人
+    public ActionResult Index()
+        {
+            var 客戶聯絡人 = db.客戶聯絡人.Where(contact => contact.是否已刪除 == false).Include(客 => 客.客戶資料);
             return View(客戶聯絡人.ToList());
         }
 
@@ -115,7 +127,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
-            db.客戶聯絡人.Remove(客戶聯絡人);
+            //db.客戶聯絡人.Remove(客戶聯絡人);
+            客戶聯絡人.是否已刪除 = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
