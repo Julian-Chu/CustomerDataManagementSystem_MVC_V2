@@ -108,6 +108,7 @@
     <Compile Include="IntegrationTests\測試主選單上三個新增links.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests\客戶聯絡人ModelTests.cs" />
     <Compile Include="UnitTests\客戶銀行資訊ControllerTests.cs" />
     <Compile Include="UnitTests\客戶聯絡人ControllerTests.cs" />
     <Compile Include="UnitTests\客戶資料ControllerTests.cs" />

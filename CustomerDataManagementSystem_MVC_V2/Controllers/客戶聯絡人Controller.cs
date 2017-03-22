@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CustomerDataManagementSystem_MVC_V2.Models;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using CustomerDataManagementSystem_MVC_V2.Models;
 
 namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
@@ -24,10 +21,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             db = mockDBContext;
         }
 
-    
-
-    // GET: 客戶聯絡人
-    public ActionResult Index()
+        // GET: 客戶聯絡人
+        public ActionResult Index()
         {
             var 客戶聯絡人 = db.客戶聯絡人.Where(contact => contact.是否已刪除 == false).Include(客 => 客.客戶資料);
             return View(客戶聯絡人.ToList());
@@ -56,7 +51,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         }
 
         // POST: 客戶聯絡人/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -90,7 +85,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         }
 
         // POST: 客戶聯絡人/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -1,21 +1,20 @@
-﻿using System;
+﻿using CustomerDataManagementSystem_MVC_V2.Controllers;
+using CustomerDataManagementSystem_MVC_V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-using System.Data.Entity;
-using NSubstitute;
-using CustomerDataManagementSystem_MVC_V2.Models;
-using System.Collections.Generic;
-using CustomerDataManagementSystem_MVC_V2.Controllers;
 
 namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
 {
     [TestClass]
     public class 客戶銀行資訊ControllerTests
     {
-        IQueryable<客戶銀行資訊> banks;
-        IDbSet<客戶銀行資訊> mockDbSet;
-        客戶資料DBEntities mockDbContext;
+        private IQueryable<客戶銀行資訊> banks;
+        private IDbSet<客戶銀行資訊> mockDbSet;
+        private 客戶資料DBEntities mockDbContext;
 
         [TestInitialize]
         public void Initialize()
@@ -40,7 +39,6 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
                 object[] idValues = callinfo.Arg<object[]>();
                 int id = (int)idValues[0];
                 return banks.SingleOrDefault(b => b.Id == id);
-
             });
 
             mockDbSet.Include("test").ReturnsForAnyArgs(mockDbSet);
@@ -60,7 +58,6 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
             var data = result.Model as List<客戶銀行資訊>;
             //Assert
             Assert.AreEqual(3, data.Count);
-
         }
 
         [TestMethod]

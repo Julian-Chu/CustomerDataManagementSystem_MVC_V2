@@ -1,21 +1,20 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Web.Mvc;
-using NSubstitute;
-using System.Data.Entity;
-using System.Collections.Generic;
+﻿using CustomerDataManagementSystem_MVC_V2.Controllers;
 using CustomerDataManagementSystem_MVC_V2.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using CustomerDataManagementSystem_MVC_V2.Controllers;
+using System.Web.Mvc;
 
 namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
 {
     [TestClass]
     public class 客戶聯絡人ControllerTests
     {
-        IQueryable<客戶聯絡人> contacts;
-        IDbSet<客戶聯絡人> mockDbSet;
-        客戶資料DBEntities mockDBContext;
+        private IQueryable<客戶聯絡人> contacts;
+        private IDbSet<客戶聯絡人> mockDbSet;
+        private 客戶資料DBEntities mockDBContext;
 
         [TestInitialize]
         public void Initialze()
@@ -45,8 +44,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
 
             mockDBContext = Substitute.For<客戶資料DBEntities>();
             mockDBContext.客戶聯絡人.Returns(mockDbSet);
-
         }
+
         [TestMethod]
         public void Index_不會顯示已經標示刪除的資料()
         {
@@ -58,8 +57,6 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
             var data = result.Model as List<客戶聯絡人>;
             //Assert
             Assert.AreEqual(3, data.Count);
-
-
         }
 
         [TestMethod]
