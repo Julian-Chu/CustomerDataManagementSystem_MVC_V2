@@ -29,10 +29,10 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             return View(db.客戶資料統計.ToList());
         }
         // GET: 客戶資料
-        public ActionResult Index()
+        public ActionResult Index(string keyword="")
         {
             var data = db.客戶資料.AsQueryable();
-            data = data.Where(p => p.是否已刪除 == false);
+            data = data.Where(p => p.是否已刪除 == false && p.客戶名稱.Contains(keyword));
             return View(data.ToList());
         }
 

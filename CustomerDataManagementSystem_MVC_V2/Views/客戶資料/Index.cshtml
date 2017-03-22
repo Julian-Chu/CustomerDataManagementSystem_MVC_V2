@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<CustomerDataManagementSystem_MVC_V2.Models.客戶資料>
 
+
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>客戶資料</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
+    @Html.Partial("SearchByKeyword")
 </p>
 <table class="table">
     <tr>

@@ -22,9 +22,10 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         }
 
         // GET: 客戶聯絡人
-        public ActionResult Index()
+        public ActionResult Index(string keyword = "")
         {
-            var 客戶聯絡人 = db.客戶聯絡人.Where(contact => contact.是否已刪除 == false).Include(客 => 客.客戶資料);
+            var 客戶聯絡人 = db.客戶聯絡人.Where(contact => contact.是否已刪除 == false &&
+            (contact.姓名.Contains(keyword) || contact.客戶資料.客戶名稱.Contains(keyword))).Include(客 => 客.客戶資料);
             return View(客戶聯絡人.ToList());
         }
 
