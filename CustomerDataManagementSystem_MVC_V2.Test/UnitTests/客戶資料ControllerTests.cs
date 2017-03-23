@@ -17,6 +17,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
         IDbSet<客戶資料> mockDBSet;
         客戶資料DBEntities mockDBContext;
 
+        客戶資料Repository mockRepo;
+        IUnitOfWork mockUnitOfWork;
         [TestInitialize]
         public void Initialze()
         {
@@ -28,31 +30,46 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
                 new 客戶資料 { Id=3, 客戶名稱="test3", Email="test3@testmail.com" , 是否已刪除=false}
             };
 
-            mockDBSet = Substitute.For<DbSet<客戶資料>, IDbSet<客戶資料>>();
-            mockDBSet.Provider.Returns(customers.AsQueryable().Provider);
-            mockDBSet.Expression.Returns(customers.AsQueryable().Expression);
-            mockDBSet.ElementType.Returns(customers.AsQueryable().ElementType);
-            mockDBSet.GetEnumerator().Returns(customers.AsQueryable().GetEnumerator());
+            //mockDBSet = Substitute.For<DbSet<客戶資料>, IDbSet<客戶資料>>();
+            //mockDBSet.Provider.Returns(customers.AsQueryable().Provider);
+            //mockDBSet.Expression.Returns(customers.AsQueryable().Expression);
+            //mockDBSet.ElementType.Returns(customers.AsQueryable().ElementType);
+            //mockDBSet.GetEnumerator().Returns(customers.AsQueryable().GetEnumerator());
 
-            mockDBSet.Find(Arg.Any<int>()).Returns(callinfo =>
-            {
-                //int[] idValues = callinfo.Arg<int[]>();  // failed
-                //object[] idValues = callinfo.Arg<object[]>();
-                var idValues = callinfo.Arg<object[]>();
+            //mockDBSet.Find(Arg.Any<int>()).Returns(callinfo =>
+            //{
+            //    //int[] idValues = callinfo.Arg<int[]>();  // failed
+            //    //object[] idValues = callinfo.Arg<object[]>();
+            //    var idValues = callinfo.Arg<object[]>();
 
-                int tempId = (int)idValues[0];
-                return customers.FirstOrDefault(p => p.Id == tempId);
-            });
+            //    int tempId = (int)idValues[0];
+            //    return customers.FirstOrDefault(p => p.Id == tempId);
+            //});
 
-            mockDBContext = Substitute.For<客戶資料DBEntities>();
-            mockDBContext.客戶資料.Returns(mockDBSet);
+            //mockDBContext = Substitute.For<客戶資料DBEntities>();
+            //mockDBContext.客戶資料.Returns(mockDBSet);
+
+            mockRepo = Substitute.For<客戶資料Repository>();
+            mockRepo.All().Returns(customers.AsQueryable());
+
+            mockUnitOfWork = Substitute.For<IUnitOfWork>();
+            mockRepo.UnitOfWork = mockUnitOfWork;
+
+            //mockRepo.Find(Arg.Any<int>()).Returns(customers[0]);
+
+            //mockRepo.Find(Arg.Any<int>()).Returns(callinfo =>
+            //{
+            //    var idValues = callinfo.Arg<object[]>();
+            //    int id = (int)idValues[0];
+            //    return customers.FirstOrDefault(p => p.Id == id);
+            //});
         }
 
         [TestMethod]
         public void Index_不會顯示已經標示刪除的資料()
         {
-            //Assign
-            var controller = new 客戶資料Controller(mockDBContext);
+            //Assign           
+            var controller = new 客戶資料Controller(mockRepo);
             //Act
             customers[0].是否已刪除 = true;
             ViewResult result = controller.Index() as ViewResult;
@@ -66,7 +83,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
         public void DeletedConfirmed_RedirectToIndex()
         {
             //Assign
-            var controller = new 客戶資料Controller(mockDBContext);
+            var controller = new 客戶資料Controller(mockRepo);
             //Act
             int id = 0;
             var result = controller.DeleteConfirmed(id);
@@ -80,14 +97,13 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
         public void DeleteConfirmed_只在是否已刪除欄位改成是()
         {
             //Assign
-            var controller = new 客戶資料Controller(mockDBContext);
+            var controller = new 客戶資料Controller(mockRepo);
             //Act
             int id = 0;
             var result = controller.DeleteConfirmed(id);
             //Assert
             Assert.AreEqual(4, customers.Count);
             Assert.AreEqual(true, customers[0].是否已刪除);
-
         }
     }
 }

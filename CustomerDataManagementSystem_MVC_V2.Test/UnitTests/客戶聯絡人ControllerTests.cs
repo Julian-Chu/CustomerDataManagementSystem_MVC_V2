@@ -21,10 +21,10 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
         {
             contacts = new List<客戶聯絡人>
             {
-                new 客戶聯絡人 { Id = 0, 是否已刪除 = false },
-                new 客戶聯絡人 { Id = 1, 是否已刪除 = false },
-                new 客戶聯絡人 { Id = 2, 是否已刪除 = false },
-                new 客戶聯絡人 { Id = 3, 是否已刪除 = false }
+                new 客戶聯絡人 { Id = 0, 姓名="test0", 是否已刪除 = false, 客戶資料 = new 客戶資料 { Id=0, 客戶名稱="test0", Email="test0@testmail.com" , 是否已刪除=false} },
+                new 客戶聯絡人 { Id = 1, 姓名="test1", 是否已刪除 = false, 客戶資料 = new 客戶資料 { Id=1, 客戶名稱="test1", Email="test1@testmail.com" , 是否已刪除=false} },
+                new 客戶聯絡人 { Id = 2, 姓名="test2", 是否已刪除 = false, 客戶資料 = new 客戶資料 { Id=2, 客戶名稱="test2", Email="test2@testmail.com" , 是否已刪除=false} },
+                new 客戶聯絡人 { Id = 3, 姓名="test3", 是否已刪除 = false, 客戶資料 = new 客戶資料 { Id=3, 客戶名稱="test3", Email="test3@testmail.com" , 是否已刪除=false} }
             }.AsQueryable();
 
             mockDbSet = Substitute.For<DbSet<客戶聯絡人>, IDbSet<客戶聯絡人>>();

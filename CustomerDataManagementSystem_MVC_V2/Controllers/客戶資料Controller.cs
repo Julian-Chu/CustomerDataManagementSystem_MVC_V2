@@ -12,26 +12,39 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
     public class 客戶資料Controller : Controller
     {
-        private 客戶資料DBEntities db;
+        //private 客戶資料DBEntities db;
+        private 客戶資料Repository repo;
 
+        //public 客戶資料Controller()
+        //{
+        //    db = new 客戶資料DBEntities();
+        //}
+
+        //public 客戶資料Controller(客戶資料DBEntities mockDb)
+        //{
+        //    db = mockDb;
+        //}
+
+        public 客戶資料Controller(客戶資料Repository mockRepo)
+        {
+            this.repo = mockRepo;
+        }
         public 客戶資料Controller()
         {
-            db = new 客戶資料DBEntities();
-        }
-
-        public 客戶資料Controller(客戶資料DBEntities mockDb)
-        {
-            db = mockDb;
+            this.repo = RepositoryHelper.Get客戶資料Repository();
         }
 
         public ActionResult 客戶資料統計()
         {
-            return View(db.客戶資料統計.ToList());
+            var tempRepo = RepositoryHelper.Get客戶資料統計Repository();
+            return View(tempRepo.All().ToList());
         }
         // GET: 客戶資料
         public ActionResult Index(string keyword="")
         {
-            var data = db.客戶資料.AsQueryable();
+            //var data = db.客戶資料.AsQueryable();
+            var data = repo.All();
+
             data = data.Where(p => p.是否已刪除 == false && p.客戶名稱.Contains(keyword));
             return View(data.ToList());
         }
@@ -43,7 +56,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = repo.Find(id);
             if (客戶資料 == null)
             {
                 return HttpNotFound();
@@ -66,8 +79,11 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶資料.Add(客戶資料);
-                db.SaveChanges();
+                //db.客戶資料.Add(客戶資料);
+                //db.SaveChanges();
+
+                repo.Add(客戶資料);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -81,7 +97,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            //客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = repo.Find(id);
             if (客戶資料 == null)
             {
                 return HttpNotFound();
@@ -98,8 +115,12 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(客戶資料).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(客戶資料).State = EntityState.Modified;
+                //db.SaveChanges();
+                var tempDB = repo.UnitOfWork.Context;
+                tempDB.Entry(客戶資料).State = EntityState.Modified;
+                repo.UnitOfWork.Commit();
+
                 return RedirectToAction("Index");
             }
             return View(客戶資料);
@@ -112,7 +133,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = repo.Find(id);
             if (客戶資料 == null)
             {
                 return HttpNotFound();
@@ -125,10 +146,12 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            //客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = repo.Find(id);
             //db.客戶資料.Remove(客戶資料);
             客戶資料.是否已刪除 = true;
-            db.SaveChanges();
+            //db.SaveChanges();
+            repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
 
@@ -136,6 +159,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             if (disposing)
             {
+                var db = repo.UnitOfWork.Context;
                 db.Dispose();
             }
             base.Dispose(disposing);

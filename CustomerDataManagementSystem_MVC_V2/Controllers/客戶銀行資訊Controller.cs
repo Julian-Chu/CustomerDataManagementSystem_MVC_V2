@@ -1,4 +1,5 @@
 ﻿using CustomerDataManagementSystem_MVC_V2.Models;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -24,9 +25,10 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         // GET: 客戶銀行資訊
         public ActionResult Index(string keyword="")
         {
-            var 客戶銀行資訊 = db.客戶銀行資訊.Where(b => b.是否已刪除 == false &&
-            (b.銀行名稱.Contains(keyword) || b.客戶資料.客戶名稱.Contains(keyword))
-            ).Include(客 => 客.客戶資料);
+            var 客戶銀行資訊 = db.客戶銀行資訊.Where(b => b.是否已刪除 == false).AsQueryable();
+            if(string.IsNullOrEmpty(keyword))
+                客戶銀行資訊 = 客戶銀行資訊.Where(b => b.銀行名稱.Contains(keyword) || b.客戶資料.客戶名稱.Contains(keyword))
+                .Include(客 => 客.客戶資料);
             return View(客戶銀行資訊.ToList());
         }
 

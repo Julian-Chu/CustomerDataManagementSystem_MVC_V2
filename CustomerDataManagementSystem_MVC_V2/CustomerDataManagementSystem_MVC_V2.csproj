@@ -212,11 +212,31 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EFRepository.cs">
+      <DependentUpon>IRepository.EF6..tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EFUnitOfWork.cs">
+      <DependentUpon>IRepository.EF6..tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IRepository.EF6..cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IRepository.EF6..tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IUnitOfWork.cs">
+      <DependentUpon>IRepository.EF6..tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RepositoryHelper.cs">
+      <DependentUpon>IRepository.EF6..tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>客戶資料DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.Partial.cs">
       <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagramsRepository.cs">
+      <DependentUpon>IRepository.EF6..tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\LoginViewModel.cs" />
     <Compile Include="Models\客戶聯絡人.cs">
@@ -224,6 +244,9 @@
     </Compile>
     <Compile Include="Models\客戶聯絡人.Partial.cs">
       <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\客戶聯絡人Repository.cs">
+      <DependentUpon>IRepository.EF6..tt</DependentUpon>
     </Compile>
     <Compile Include="Models\客戶資料.cs">
       <DependentUpon>客戶資料DB.tt</DependentUpon>
@@ -246,14 +269,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>客戶資料DB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\客戶資料Repository.cs">
+      <DependentUpon>IRepository.EF6..tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\客戶資料統計.cs">
       <DependentUpon>客戶資料DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\客戶資料統計Repository.cs">
+      <DependentUpon>IRepository.EF6..tt</DependentUpon>
     </Compile>
     <Compile Include="Models\客戶銀行資訊.cs">
       <DependentUpon>客戶資料DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\客戶銀行資訊.Partial.cs">
       <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\客戶銀行資訊Repository.cs">
+      <DependentUpon>IRepository.EF6..tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -271,6 +303,10 @@
     <Content Include="Models\EFGeneratePartialClass.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EFGeneratePartialClass.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\IRepository.EF6..tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IRepository.EF6..cs</LastGenOutput>
     </Content>
     <Content Include="Models\客戶資料DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

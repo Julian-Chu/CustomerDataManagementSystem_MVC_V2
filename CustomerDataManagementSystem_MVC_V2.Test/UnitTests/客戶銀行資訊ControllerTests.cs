@@ -21,10 +21,10 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
         {
             banks = new List<客戶銀行資訊>
             {
-                new 客戶銀行資訊 {Id = 0, 是否已刪除 = false },
-                new 客戶銀行資訊 {Id = 1, 是否已刪除 = false },
-                new 客戶銀行資訊 {Id = 2, 是否已刪除 = false },
-                new 客戶銀行資訊 {Id = 3, 是否已刪除 = false }
+                new 客戶銀行資訊 {Id = 0, 銀行名稱 = "testBank0", 是否已刪除 = false , 客戶資料 = new 客戶資料 { Id=0, 客戶名稱="test0", Email="test0@testmail.com" , 是否已刪除=false} },
+                new 客戶銀行資訊 {Id = 1, 銀行名稱 = "testBank0", 是否已刪除 = false , 客戶資料 = new 客戶資料 { Id=1, 客戶名稱="test1", Email="test1@testmail.com" , 是否已刪除=false} },
+                new 客戶銀行資訊 {Id = 2, 銀行名稱 = "testBank0", 是否已刪除 = false , 客戶資料 = new 客戶資料 { Id=2, 客戶名稱="test2", Email="test2@testmail.com" , 是否已刪除=false} },
+                new 客戶銀行資訊 {Id = 3, 銀行名稱 = "testBank0", 是否已刪除 = false , 客戶資料 = new 客戶資料 { Id=3, 客戶名稱="test3", Email="test3@testmail.com" , 是否已刪除=false} }
             }.AsQueryable();
 
             mockDbSet = Substitute.For<DbSet<客戶銀行資訊>, IDbSet<客戶銀行資訊>>();
@@ -41,7 +41,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
                 return banks.SingleOrDefault(b => b.Id == id);
             });
 
-            mockDbSet.Include("test").ReturnsForAnyArgs(mockDbSet);
+            //mockDbSet.Include("test").ReturnsForAnyArgs(mockDbSet);
 
             mockDbContext = Substitute.For<客戶資料DBEntities>();
             mockDbContext.客戶銀行資訊.Returns(mockDbSet);
