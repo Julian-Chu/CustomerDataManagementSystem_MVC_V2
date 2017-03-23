@@ -9,22 +9,24 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
     public class 客戶聯絡人Controller : Controller
     {
-        private 客戶資料DBEntities db;
+        private 客戶聯絡人Repository contactRepo;
+        private 客戶資料Repository customerRepo;
 
         public 客戶聯絡人Controller()
         {
-            db = new 客戶資料DBEntities();
+            this.contactRepo = RepositoryHelper.Get客戶聯絡人Repository();
+            this.customerRepo = RepositoryHelper.Get客戶資料Repository();
         }
 
-        public 客戶聯絡人Controller(客戶資料DBEntities mockDBContext)
+        public 客戶聯絡人Controller(客戶聯絡人Repository mockRepo)
         {
-            db = mockDBContext;
+            this.contactRepo = mockRepo;
         }
 
         // GET: 客戶聯絡人
         public ActionResult Index(string keyword = "")
         {
-            var 客戶聯絡人 = db.客戶聯絡人.Where(contact => contact.是否已刪除 == false &&
+            var 客戶聯絡人 = contactRepo.All().Where(contact => contact.是否已刪除 == false &&
             (contact.姓名.Contains(keyword) || contact.客戶資料.客戶名稱.Contains(keyword))).Include(客 => 客.客戶資料);
             return View(客戶聯絡人.ToList());
         }
@@ -36,7 +38,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
+            客戶聯絡人 客戶聯絡人 = contactRepo.Find(id);
             if (客戶聯絡人 == null)
             {
                 return HttpNotFound();
@@ -47,7 +49,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         // GET: 客戶聯絡人/Create
         public ActionResult Create()
         {
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(customerRepo.All(), "Id", "客戶名稱");
             return View();
         }
 
@@ -60,12 +62,12 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶聯絡人.Add(客戶聯絡人);
-                db.SaveChanges();
+                contactRepo.Add(客戶聯絡人);
+                contactRepo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶聯絡人.客戶Id);
+            ViewBag.客戶Id = new SelectList(customerRepo.All(), "Id", "客戶名稱", 客戶聯絡人.客戶Id);
             return View(客戶聯絡人);
         }
 
@@ -76,12 +78,13 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
+            客戶聯絡人 客戶聯絡人 = contactRepo.Find(id);
+
             if (客戶聯絡人 == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶聯絡人.客戶Id);
+            ViewBag.客戶Id = new SelectList(customerRepo.All(), "Id", "客戶名稱", 客戶聯絡人.客戶Id);
             return View(客戶聯絡人);
         }
 
@@ -94,11 +97,11 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(客戶聯絡人).State = EntityState.Modified;
-                db.SaveChanges();
+                contactRepo.UnitOfWork.Context.Entry(客戶聯絡人).State = EntityState.Modified;
+                contactRepo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶聯絡人.客戶Id);
+            ViewBag.客戶Id = new SelectList(customerRepo.All(), "Id", "客戶名稱", 客戶聯絡人.客戶Id);
             return View(客戶聯絡人);
         }
 
@@ -109,7 +112,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
+            客戶聯絡人 客戶聯絡人 = contactRepo.Find(id);
+
             if (客戶聯絡人 == null)
             {
                 return HttpNotFound();
@@ -122,10 +126,10 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
-            //db.客戶聯絡人.Remove(客戶聯絡人);
+            客戶聯絡人 客戶聯絡人 = contactRepo.Find(id);
+
             客戶聯絡人.是否已刪除 = true;
-            db.SaveChanges();
+            contactRepo.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
 
@@ -133,6 +137,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             if (disposing)
             {
+                var db = contactRepo.UnitOfWork.Context;
                 db.Dispose();
             }
             base.Dispose(disposing);

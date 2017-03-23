@@ -15,6 +15,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
         private IQueryable<客戶聯絡人> contacts;
         private IDbSet<客戶聯絡人> mockDbSet;
         private 客戶資料DBEntities mockDBContext;
+        private 客戶聯絡人Repository mockRepo;
 
         [TestInitialize]
         public void Initialze()
@@ -44,13 +45,19 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
 
             mockDBContext = Substitute.For<客戶資料DBEntities>();
             mockDBContext.客戶聯絡人.Returns(mockDbSet);
+
+            mockRepo = Substitute.For<客戶聯絡人Repository>();
+            mockRepo.All().Returns(contacts);
+            mockRepo.UnitOfWork = Substitute.For<IUnitOfWork>();
         }
 
         [TestMethod]
         public void Index_不會顯示已經標示刪除的資料()
         {
             //Assign
-            var controller = new 客戶聯絡人Controller(mockDBContext);
+            //var controller = new 客戶聯絡人Controller(mockDBContext);
+            var controller = new 客戶聯絡人Controller(mockRepo);
+
             //Act
             contacts.FirstOrDefault(c => c.Id == 0).是否已刪除 = true;
             var result = controller.Index() as ViewResult;
@@ -63,7 +70,9 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
         public void DeleteConfirmed_RedirectToIndex()
         {
             //Assign
-            var controller = new 客戶聯絡人Controller(mockDBContext);
+            //var controller = new 客戶聯絡人Controller(mockDBContext);
+            var controller = new 客戶聯絡人Controller(mockRepo);
+
             //Act
             int id = 0;
             var result = controller.DeleteConfirmed(id);
@@ -77,7 +86,9 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
         public void DeleteConfirmed_只在是否已刪除欄位改成是()
         {
             //Assign
-            var controller = new 客戶聯絡人Controller(mockDBContext);
+            //var controller = new 客戶聯絡人Controller(mockDBContext);
+            var controller = new 客戶聯絡人Controller(mockRepo);
+
             //Act
             int id = 0;
             var result = controller.DeleteConfirmed(id);
