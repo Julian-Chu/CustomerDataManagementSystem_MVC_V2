@@ -12,18 +12,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
     public class 客戶資料Controller : Controller
     {
-        //private 客戶資料DBEntities db;
         private 客戶資料Repository repo;
 
-        //public 客戶資料Controller()
-        //{
-        //    db = new 客戶資料DBEntities();
-        //}
-
-        //public 客戶資料Controller(客戶資料DBEntities mockDb)
-        //{
-        //    db = mockDb;
-        //}
 
         public 客戶資料Controller(客戶資料Repository mockRepo)
         {
@@ -42,7 +32,6 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         // GET: 客戶資料
         public ActionResult Index(string keyword="")
         {
-            //var data = db.客戶資料.AsQueryable();
             var data = repo.All();
 
             data = data.Where(p => p.是否已刪除 == false && p.客戶名稱.Contains(keyword));
@@ -79,9 +68,6 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             if (ModelState.IsValid)
             {
-                //db.客戶資料.Add(客戶資料);
-                //db.SaveChanges();
-
                 repo.Add(客戶資料);
                 repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
@@ -97,7 +83,6 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //客戶資料 客戶資料 = db.客戶資料.Find(id);
             客戶資料 客戶資料 = repo.Find(id);
             if (客戶資料 == null)
             {
@@ -115,8 +100,6 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             if (ModelState.IsValid)
             {
-                //db.Entry(客戶資料).State = EntityState.Modified;
-                //db.SaveChanges();
                 var tempDB = repo.UnitOfWork.Context;
                 tempDB.Entry(客戶資料).State = EntityState.Modified;
                 repo.UnitOfWork.Commit();
@@ -146,11 +129,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            //客戶資料 客戶資料 = db.客戶資料.Find(id);
             客戶資料 客戶資料 = repo.Find(id);
-            //db.客戶資料.Remove(客戶資料);
             客戶資料.是否已刪除 = true;
-            //db.SaveChanges();
             repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }

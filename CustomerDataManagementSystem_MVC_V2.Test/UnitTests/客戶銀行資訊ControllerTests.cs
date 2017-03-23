@@ -16,6 +16,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
         private IDbSet<客戶銀行資訊> mockDbSet;
         private 客戶資料DBEntities mockDbContext;
 
+        private 客戶銀行資訊Repository mockRepo;
+
         [TestInitialize]
         public void Initialize()
         {
@@ -45,13 +47,18 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
 
             mockDbContext = Substitute.For<客戶資料DBEntities>();
             mockDbContext.客戶銀行資訊.Returns(mockDbSet);
+
+            mockRepo = Substitute.For<客戶銀行資訊Repository>();
+            mockRepo.All().Returns(banks);
+            mockRepo.UnitOfWork = Substitute.For<IUnitOfWork>();
         }
 
         [TestMethod]
         public void Index_不顯示已刪除欄位資料()
         {
             //Assign
-            var controller = new 客戶銀行資訊Controller(mockDbContext);
+            //var controller = new 客戶銀行資訊Controller(mockDbContext);
+            var controller = new 客戶銀行資訊Controller(mockRepo);
             //Act
             banks.SingleOrDefault(b => b.Id == 0).是否已刪除 = true;
             ViewResult result = controller.Index() as ViewResult;
@@ -64,7 +71,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
         public void DeleteConfrimed_只在是否已刪除欄位改成true()
         {
             //Assign
-            var controller = new 客戶銀行資訊Controller(mockDbContext);
+            var controller = new 客戶銀行資訊Controller(mockRepo);
             //Act
             int id = 0;
             var result = controller.DeleteConfirmed(id);
