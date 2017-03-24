@@ -1,4 +1,5 @@
 ﻿using CustomerDataManagementSystem_MVC_V2.Models;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -12,10 +13,37 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         private 客戶聯絡人Repository contactRepo;
         private 客戶資料Repository customerRepo;
 
+        private Dictionary<string, string> jobTitleDic = new Dictionary<string, string>();
+
         public 客戶聯絡人Controller()
         {
             this.contactRepo = RepositoryHelper.Get客戶聯絡人Repository();
             this.customerRepo = RepositoryHelper.Get客戶資料Repository();
+            CreateCaregoryDic();
+        }
+
+        private void CreateCaregoryDic()
+        {
+            var category = contactRepo.All().Select(c => c.職稱).Distinct().ToList();
+            int i = 1;
+            jobTitleDic.Add(i.ToString(), "All");
+            i++;
+            foreach (var item in category)
+            {
+                jobTitleDic.Add(i.ToString(), item);
+                i++;
+            }
+        }
+
+        private List<SelectListItem> CreateSelectListItems()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            foreach (var item in jobTitleDic)
+            {
+                items.Add(new SelectListItem { Text = item.Value, Value = item.Key });
+            }
+
+            return items;
         }
 
         public 客戶聯絡人Controller(客戶聯絡人Repository mockRepo)
@@ -24,12 +52,33 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         }
 
         // GET: 客戶聯絡人
-        public ActionResult Index(string keyword = "")
+        public ActionResult Index(string keyword = "", string selectedId = "")
         {
-            var 客戶聯絡人 = contactRepo.All().Where(contact => contact.是否已刪除 == false &&
+            var data = contactRepo.All().Where(contact => contact.是否已刪除 == false &&
             (contact.姓名.Contains(keyword) || contact.客戶資料.客戶名稱.Contains(keyword))).Include(客 => 客.客戶資料);
-            return View(客戶聯絡人.ToList());
+
+            if (jobTitleDic.ContainsKey(selectedId) && !string.IsNullOrEmpty(jobTitleDic[selectedId]))
+            {
+                var jobTitle = jobTitleDic[selectedId];
+                if(jobTitle != "All") data = data.Where(p => p.職稱 == jobTitle);
+            }
+
+            ViewBag.jobTitles = CreateSelectListItems();
+            return View(data.ToList());
         }
+
+        //[HttpPost]
+        //public ActionResult Index(, string keyword = "")
+        //{
+        //    var data = contactRepo.All().Where(contact => contact.是否已刪除 == false &&
+        //    (contact.姓名.Contains(keyword) || contact.客戶資料.客戶名稱.Contains(keyword))).Include(客 => 客.客戶資料);
+
+        //    var jobTitle = jobTitleDic[selectedId];
+        //    data = data.Where(p => p.職稱 == jobTitle);
+
+        //    ViewBag.jobTitles = CreateSelectListItems();
+        //    return View(data.ToList());
+        //}
 
         // GET: 客戶聯絡人/Details/5
         public ActionResult Details(int? id)
