@@ -1,0 +1,15 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Error</title>
+</head>
+<body>
+    <hgroup>
+        <h1>缺少參數</h1>
+        <h2>請確認 @Model.ControllerName / @Model.ActionName</h2>
+        <h3>ErrorMessage: @Model.Exception.Message</h3>
+    </hgroup>
+</body>
+</html>

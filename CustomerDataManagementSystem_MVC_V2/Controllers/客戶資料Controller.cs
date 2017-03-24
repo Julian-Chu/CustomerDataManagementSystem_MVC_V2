@@ -1,4 +1,5 @@
 ﻿using CustomerDataManagementSystem_MVC_V2.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
+    [HandleError(View ="Error_ArgumentException",ExceptionType =typeof(ArgumentException))]
     public class 客戶資料Controller : Controller
     {
         private 客戶資料Repository repo;
@@ -108,7 +110,9 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new ArgumentException("id 不存在或為空值");
+
             }
             客戶資料 客戶資料 = repo.Find(id);
             if (客戶資料 == null)
@@ -146,7 +150,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new ArgumentException("id 不存在或為空值");
             }
             客戶資料 客戶資料 = repo.Find(id);
             if (客戶資料 == null)
