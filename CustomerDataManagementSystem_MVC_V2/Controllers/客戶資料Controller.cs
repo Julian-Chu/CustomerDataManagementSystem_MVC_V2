@@ -68,9 +68,6 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         public ActionResult Index(string selectedId, string keyword = "")
         {
             var category = customerCategoryDic[selectedId];
-            //var data = repo.All();
-            //data = data.Where(p => p.是否已刪除 == false && p.客戶名稱.Contains(keyword));
-            //if(category!=null) data = data.Where(c => c.客戶分類.Contains(category));
             var data = repo.filter(keyword, category);
             List<SelectListItem> items = CreateSelectListItems();
             ViewBag.dep = items;
@@ -109,7 +106,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             {
                 repo.Add(客戶資料);
                 repo.UnitOfWork.Commit();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index",FormMethod.Get);
             }
 
             return View(客戶資料);
