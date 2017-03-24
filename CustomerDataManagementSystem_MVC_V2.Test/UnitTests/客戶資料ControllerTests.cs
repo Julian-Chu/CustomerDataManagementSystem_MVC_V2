@@ -72,7 +72,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
             var controller = new 客戶資料Controller(mockRepo);
             //Act
             customers[0].是否已刪除 = true;
-            ViewResult result = controller.Index() as ViewResult;
+            ViewResult result = controller.Index("") as ViewResult;
             List<客戶資料> data = result.Model as List<客戶資料>;
             //Assert
             Assert.AreEqual(3, data.Count);
