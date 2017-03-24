@@ -1,4 +1,5 @@
-﻿using CustomerDataManagementSystem_MVC_V2.Models;
+﻿using CustomerDataManagementSystem_MVC_V2.ActionFilters;
+using CustomerDataManagementSystem_MVC_V2.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
     [HandleError(View ="Error_ArgumentException",ExceptionType =typeof(ArgumentException))]
+    [計算Action時間]
     public class 客戶資料Controller : Controller
     {
         private 客戶資料Repository repo;

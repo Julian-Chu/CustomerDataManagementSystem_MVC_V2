@@ -1,4 +1,5 @@
-﻿using CustomerDataManagementSystem_MVC_V2.Models;
+﻿using CustomerDataManagementSystem_MVC_V2.ActionFilters;
+using CustomerDataManagementSystem_MVC_V2.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
+    [計算Action時間]
     public class 客戶聯絡人Controller : Controller
     {
         private 客戶聯絡人Repository contactRepo;

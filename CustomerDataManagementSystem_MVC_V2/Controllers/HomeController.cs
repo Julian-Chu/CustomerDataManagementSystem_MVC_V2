@@ -1,4 +1,5 @@
-﻿using CustomerDataManagementSystem_MVC_V2.Models.ViewModels;
+﻿using CustomerDataManagementSystem_MVC_V2.ActionFilters;
+using CustomerDataManagementSystem_MVC_V2.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Web.Security;
 
 namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
+    [計算Action時間]
     public class HomeController : Controller
     {
         public ActionResult Index()
