@@ -30,9 +30,6 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         private void CreateCaregoryDic()
         {
             var category = repo.All().Select(c => c.客戶分類).Distinct().ToList();
-            //customerCategoryDic.Add("1", "資訊業");
-            //customerCategoryDic.Add("2", "");
-
             int i = 1;
             foreach(var item in category)
             {
@@ -51,8 +48,6 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             var data = repo.All();
             data = data.Where(p => p.是否已刪除 == false && p.客戶名稱.Contains(keyword));
-            //ViewBag.客戶Id = new SelectList(customerRepo.All(), "Id", "客戶名稱", 客戶聯絡人.id);
-            //ViewBag.dep = new SelectList(data,"Id","客戶分類");
             List<SelectListItem> items = CreateSelectListItems();
             ViewBag.dep = items;
             return View(data.ToList());
@@ -66,21 +61,17 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
                 items.Add(new SelectListItem { Text = item.Value, Value = item.Key });
             }
 
-            //return new List<SelectListItem>
-            //{
-            //    new SelectListItem {Text=customerCategoryDic["1"], Value = "1" },
-            //    new SelectListItem {Text=customerCategoryDic["2"] ,Value ="2"  }
-            //};
             return items;
         }
 
         [HttpPost]
         public ActionResult Index(string selectedId, string keyword = "")
         {
-            var data = repo.All();
-            data = data.Where(p => p.是否已刪除 == false && p.客戶名稱.Contains(keyword));
             var category = customerCategoryDic[selectedId];
-            if(category!=null) data = data.Where(c => c.客戶分類.Contains(category));
+            //var data = repo.All();
+            //data = data.Where(p => p.是否已刪除 == false && p.客戶名稱.Contains(keyword));
+            //if(category!=null) data = data.Where(c => c.客戶分類.Contains(category));
+            var data = repo.filter(keyword, category);
             List<SelectListItem> items = CreateSelectListItems();
             ViewBag.dep = items;
             return View(data.ToList());
