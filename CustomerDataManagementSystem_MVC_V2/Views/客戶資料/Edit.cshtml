@@ -1,16 +1,16 @@
 ﻿@model CustomerDataManagementSystem_MVC_V2.Models.客戶資料
-
+@using CustomerDataManagementSystem_MVC_V2.Models
 @{
     ViewBag.Title = "Edit";
+    var contacts = ViewBag.contacts as List<客戶聯絡人>;
 }
 
 <h2>Edit</h2>
 
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>客戶資料</h4>
         <hr />
@@ -72,6 +72,63 @@
                 @Html.ValidationMessageFor(model => model.客戶分類, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => contacts[0].職稱)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => contacts[0].姓名)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => contacts[0].Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => contacts[0].手機)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => contacts[0].電話)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => contacts[0].客戶資料.客戶名稱)
+                </th>
+                <th></th>
+            </tr>
+
+            @for (int i = 0; i < contacts.Count(); i++)
+            {
+                <input id="@String.Format("contacts[{0}].Id",i)" name="@String.Format("contacts[{0}].Id",i)" type="hidden" value="@contacts[i].Id">
+
+                @*@Html.HiddenFor(modelItem => contacts[i].Id)*@
+
+                <tr>
+                    <td>
+                        @Html.EditorFor(modelItem => contacts[i].職稱, null, String.Format("contacts[{0}].職稱", i))
+                    </td>
+                    <td>
+                        <!--批次清單實作-1: 只用DisplayFor不可行, 用隱藏欄位塞入model binding需要的部分, 是否有直接的做法??-->  
+                        @Html.DisplayFor(modelItem => contacts[i].姓名,null, String.Format("contacts[{0}].姓名", i))
+                        <input id="@String.Format("contacts[{0}].姓名",i)" name="@String.Format("contacts[{0}].姓名",i)" type="hidden" value="@contacts[i].姓名">
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => contacts[i].Email, null, String.Format("contacts[{0}].Email", i))
+                        <input id="@String.Format("contacts[{0}].Email",i)" name="@String.Format("contacts[{0}].Email",i)" type="hidden" value="@contacts[i].Email">
+                    </td>
+                    <td>
+                        @Html.EditorFor(modelItem => contacts[i].手機, null, String.Format("contacts[{0}].手機", i))
+                    </td>
+                    <td>
+                        @Html.EditorFor(modelItem => contacts[i].電話, null, String.Format("contacts[{0}].電話", i))
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => contacts[i].客戶資料.客戶名稱)
+                    </td>
+                </tr>
+            }
+        </table>
+
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

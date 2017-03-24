@@ -11,6 +11,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
     public class 客戶資料Controller : Controller
     {
         private 客戶資料Repository repo;
+        private 客戶聯絡人Repository contactRepo;
 
         private Dictionary<string, string> customerCategoryDic = new Dictionary<string, string>();
 
@@ -22,6 +23,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         public 客戶資料Controller()
         {
             this.repo = RepositoryHelper.Get客戶資料Repository();
+            this.contactRepo = RepositoryHelper.Get客戶聯絡人Repository();
 
             CreateCaregoryDic();
         }
@@ -151,6 +153,9 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             {
                 return HttpNotFound();
             }
+            var contacts = contactRepo.All().Where(c => c.客戶Id == 客戶資料.Id);
+            ViewBag.contacts = contacts.ToList();
+
             return View(客戶資料);
         }
 
@@ -159,13 +164,28 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,客戶分類")] 客戶資料 客戶資料)
+        public ActionResult Edit([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,客戶分類")] 客戶資料 客戶資料, 
+            客戶聯絡人[] contacts)
         {
             if (ModelState.IsValid)
             {
                 var tempDB = repo.UnitOfWork.Context;
                 tempDB.Entry(客戶資料).State = EntityState.Modified;
+
+                foreach (var item in contacts)
+                {
+                    客戶聯絡人 contact = contactRepo.Find(item.Id);
+                    contact.職稱 = item.職稱;
+                    //contact.姓名 = item.姓名;
+                    //contact.Email = item.Email;
+                    contact.手機 = item.手機;
+                    contact.電話 = item.電話;
+                    var DB = contactRepo.UnitOfWork.Context;
+                    DB.Entry(contact).State = EntityState.Modified;
+                }
+                
                 repo.UnitOfWork.Commit();
+                contactRepo.UnitOfWork.Commit();
 
                 return RedirectToAction("Index");
             }
