@@ -17,10 +17,14 @@
 <table class="table">
     <tr>
         <th>
+            <a href="@Url.Action("Index","客戶聯絡人",new { sortBy="JobTitle" , ascent=true })" style="color:black">&Delta;</a>
             @Html.DisplayNameFor(model => model.職稱)
+            <a href="@Url.Action("Index","客戶聯絡人",new { sortBy="JobTitle" , ascent=false })" style="color:black">&nabla;</a>
         </th>
         <th>
+            <a href="@Url.Action("Index","客戶聯絡人",new { sortBy="Name" , ascent=true })" style="color:black">&Delta;</a>
             @Html.DisplayNameFor(model => model.姓名)
+            <a href="@Url.Action("Index","客戶聯絡人",new { sortBy="Name" , ascent=false })" style="color:black">&nabla;</a>
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Email)
@@ -32,7 +36,9 @@
             @Html.DisplayNameFor(model => model.電話)
         </th>
         <th>
+            <a href="@Url.Action("Index","客戶聯絡人",new { sortBy="CustomerName" , ascent=true })" style="color:black">&Delta;</a>
             @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
+            <a href="@Url.Action("Index","客戶聯絡人",new { sortBy="CustomerName" , ascent=false })" style="color:black">&nabla;</a>
         </th>
         <th></th>
     </tr>

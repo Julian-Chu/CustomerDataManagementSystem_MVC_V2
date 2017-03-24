@@ -52,9 +52,9 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         }
 
         // GET: 客戶聯絡人
-        public ActionResult Index(string keyword = "", string selectedId = "")
+        public ActionResult Index(string keyword = "", string selectedId = "", string sortBy = "CustomerName", bool ascent = true)
         {
-            var data = contactRepo.All().Where(contact => contact.是否已刪除 == false &&
+            IQueryable<客戶聯絡人> data = contactRepo.All().Where(contact => contact.是否已刪除 == false &&
             (contact.姓名.Contains(keyword) || contact.客戶資料.客戶名稱.Contains(keyword))).Include(客 => 客.客戶資料);
 
             if (jobTitleDic.ContainsKey(selectedId) && !string.IsNullOrEmpty(jobTitleDic[selectedId]))
@@ -63,7 +63,37 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
                 if(jobTitle != "All") data = data.Where(p => p.職稱 == jobTitle);
             }
 
-            ViewBag.jobTitles = CreateSelectListItems();
+            switch (sortBy)
+            {
+                case "JobTitle":
+                    if (ascent == true)
+                        data = data.OrderBy(p => p.職稱);
+                    else
+                        data = data.OrderByDescending(p => p.職稱);
+                    break;
+
+                case "Name":
+                    if (ascent == true)
+                        data = data.OrderBy(p => p.姓名);
+                    else
+                        data = data.OrderByDescending(p => p.姓名);
+                    break;
+
+                case "CustomerName":
+                    if (ascent == true)
+                        data = data.OrderBy(p => p.客戶資料.客戶名稱);
+                    else
+                        data = data.OrderByDescending(p => p.客戶資料.客戶名稱);
+                    break;
+
+                default:
+                    data = data.OrderBy(p => p.姓名);
+                    break;
+            }
+
+            var selectListItems = CreateSelectListItems();
+            if(!string.IsNullOrEmpty(selectedId)) selectListItems.FirstOrDefault(p => p.Value == selectedId).Selected = true;
+            ViewBag.jobTitles = selectListItems;
             return View(data.ToList());
         }
 

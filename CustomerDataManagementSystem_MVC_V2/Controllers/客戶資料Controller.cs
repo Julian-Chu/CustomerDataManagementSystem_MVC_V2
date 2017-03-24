@@ -1,12 +1,10 @@
-﻿using System;
+﻿using CustomerDataManagementSystem_MVC_V2.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using CustomerDataManagementSystem_MVC_V2.Models;
 
 namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
@@ -20,6 +18,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             this.repo = mockRepo;
         }
+
         public 客戶資料Controller()
         {
             this.repo = RepositoryHelper.Get客戶資料Repository();
@@ -31,7 +30,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             var category = repo.All().Select(c => c.客戶分類).Distinct().ToList();
             int i = 1;
-            foreach(var item in category)
+            foreach (var item in category)
             {
                 customerCategoryDic.Add(i.ToString(), item);
                 i++;
@@ -43,11 +42,39 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             var tempRepo = RepositoryHelper.Get客戶資料統計Repository();
             return View(tempRepo.All().ToList());
         }
+
         // GET: 客戶資料
-        public ActionResult Index(string keyword="")
+        public ActionResult Index(string keyword = "", string sortBy = "CustomerName", bool ascent = true)
         {
             var data = repo.All();
             data = data.Where(p => p.是否已刪除 == false && p.客戶名稱.Contains(keyword));
+            switch (sortBy)
+            {
+                case "CustomerName":
+                    if (ascent == true)
+                        data = data.OrderBy(p => p.客戶名稱);
+                    else
+                        data = data.OrderByDescending(p => p.客戶名稱);
+                    break;
+
+                case "VAT":
+                    if (ascent == true)
+                        data = data.OrderBy(p => p.統一編號);
+                    else
+                        data = data.OrderByDescending(p => p.統一編號);
+                    break;
+
+                case "TEL":
+                    if (ascent == true)
+                        data = data.OrderBy(p => p.電話);
+                    else
+                        data = data.OrderByDescending(p => p.電話);
+                    break;
+
+                default:
+                    data = data.OrderBy(p => p.客戶名稱);
+                    break;
+            }
             List<SelectListItem> items = CreateSelectListItems();
             ViewBag.dep = items;
             return View(data.ToList());
@@ -56,7 +83,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         private List<SelectListItem> CreateSelectListItems()
         {
             List<SelectListItem> items = new List<SelectListItem>();
-            foreach(var item in customerCategoryDic)
+            foreach (var item in customerCategoryDic)
             {
                 items.Add(new SelectListItem { Text = item.Value, Value = item.Key });
             }
@@ -96,7 +123,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         }
 
         // POST: 客戶資料/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -106,7 +133,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             {
                 repo.Add(客戶資料);
                 repo.UnitOfWork.Commit();
-                return RedirectToAction("Index",FormMethod.Get);
+                return RedirectToAction("Index", FormMethod.Get);
             }
 
             return View(客戶資料);
@@ -128,7 +155,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         }
 
         // POST: 客戶資料/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
