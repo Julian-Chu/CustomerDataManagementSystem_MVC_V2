@@ -11,6 +11,16 @@ namespace CustomerDataManagementSystem_MVC_V2.Models
             return this.All().SingleOrDefault(customer => customer.Id == id);
         }
 
+        public 客戶資料 FindByName(string name)
+        {
+            return this.All().SingleOrDefault(customer => customer.客戶名稱 == name);
+        }
+
+        public 客戶資料 FindByAccount(string account)
+        {
+            return this.All().SingleOrDefault(customer => customer.帳號 == account);
+        }
+
         public IQueryable<客戶資料> filter(string keyword, string category)
         {
             var data = this.All().Where(p => p.是否已刪除 == false);

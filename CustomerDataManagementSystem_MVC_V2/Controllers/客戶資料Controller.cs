@@ -6,10 +6,13 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
+    [Authorize]
     [HandleError(View ="Error_ArgumentException",ExceptionType =typeof(ArgumentException))]
     [計算Action時間]
     public class 客戶資料Controller : Controller
@@ -49,6 +52,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             return View(tempRepo.All().ToList());
         }
 
+        
         // GET: 客戶資料
         public ActionResult Index(string keyword = "", string sortBy = "CustomerName", bool ascent = true)
         {
@@ -223,6 +227,31 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             客戶資料.是否已刪除 = true;
             repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult 修改客戶資料()
+        {
+            FormsIdentity id = (FormsIdentity)HttpContext.User.Identity;
+            客戶資料 客戶資料 = repo.FindByAccount(id.Name);
+            return View(客戶資料);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult 修改客戶資料(FormCollection form)
+        {
+            FormsIdentity id = (FormsIdentity)HttpContext.User.Identity;
+            客戶資料 客戶資料 = repo.FindByAccount(id.Name);
+            if(TryUpdateModel(客戶資料, new string[] {"電話","傳真","地址","Email" }))
+            {
+                string password = form["密碼"];
+                var passwordWithSHA1 = Crypto.SHA1(password);
+                客戶資料.密碼 = passwordWithSHA1;
+                repo.UnitOfWork.Commit();
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(客戶資料);
         }
 
         protected override void Dispose(bool disposing)

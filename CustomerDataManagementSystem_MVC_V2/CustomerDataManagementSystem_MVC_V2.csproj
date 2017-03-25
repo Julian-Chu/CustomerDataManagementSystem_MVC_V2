@@ -201,6 +201,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\客戶聯絡人Controller.cs" />
     <Compile Include="Controllers\客戶資料Controller.cs" />
@@ -240,6 +241,7 @@
       <DependentUpon>IRepository.EF6..tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Models\ViewModels\修改客戶資料ViewModel.cs" />
     <Compile Include="Models\客戶聯絡人.cs">
       <DependentUpon>客戶資料DB.tt</DependentUpon>
     </Compile>
@@ -377,8 +379,11 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\Error_ArgumentException.cshtml" />
+    <Content Include="Views\客戶資料\修改客戶資料.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Account\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
