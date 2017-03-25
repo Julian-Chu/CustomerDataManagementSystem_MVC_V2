@@ -96,7 +96,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
 
             foreach (var prop in props)
             {
-                tb.Columns.Add(prop.Name, prop.PropertyType);
+                tb.Columns.Add(prop.Name, System.Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
             }
 
             foreach (var item in items)
