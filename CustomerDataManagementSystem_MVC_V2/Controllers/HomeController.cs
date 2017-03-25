@@ -1,10 +1,6 @@
 ﻿using CustomerDataManagementSystem_MVC_V2.ActionFilters;
 using CustomerDataManagementSystem_MVC_V2.Models.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -38,7 +34,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(LoginViewModel loginVmModel, string ReturnUrl="")
+        public ActionResult Login(LoginViewModel loginVmModel, string ReturnUrl = "")
         {
             if (ModelState.IsValid)
             {
@@ -64,11 +60,14 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
 
         public ActionResult Date()
         {
-     
-            var data = new { year = DateTime.Now.Year , month = DateTime.Now.Month , day = DateTime.Now.Day};
+            var data = new { year = DateTime.Now.Year, month = DateTime.Now.Month, day = DateTime.Now.Day };
 
             return Json(data, JsonRequestBehavior.AllowGet);
+        }
 
+        public ActionResult NewLayoutTest()
+        {
+            return View();
         }
     }
 }
