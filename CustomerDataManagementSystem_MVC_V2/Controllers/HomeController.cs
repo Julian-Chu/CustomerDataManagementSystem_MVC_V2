@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -59,6 +60,15 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Date()
+        {
+     
+            var data = new { year = DateTime.Now.Year , month = DateTime.Now.Month , day = DateTime.Now.Day};
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+
         }
     }
 }

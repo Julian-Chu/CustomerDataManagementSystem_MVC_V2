@@ -26,7 +26,7 @@
                     <li>@Html.ActionLink("客戶資料", "Index", "客戶資料")</li>
                     <li>@Html.ActionLink("客戶聯絡人", "Index", "客戶聯絡人")</li>
                     <li>@Html.ActionLink("客戶銀行資訊", "Index", "客戶銀行資訊")</li>
-                    <li>@Html.ActionLink("客戶資料統計","客戶資料統計", "客戶資料")</li>
+                    <li>@Html.ActionLink("客戶資料統計", "客戶資料統計", "客戶資料")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
 
@@ -34,17 +34,41 @@
 
         </div>
     </div>
-    <div class="container body-content">        
+    <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
             <p>執行時間:@ViewBag.DurationTime</p>
+            <p>
+                @(Ajax.ActionLink("Get Day Of Week", "Date", "Home", new AjaxOptions()
+            {
+                HttpMethod = "Post",
+                OnSuccess = "ShowTime",
+                OnFailure = "ShowAlert"
+            }))
+            </p>
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        function ShowTime(data) {
+            alert(data);
+            alert(data.year+"/"+data.month+"/"+data.day);
+            var json = jQuery.parseJSON(data);
+            alert(json.year);
+            alert(json.year +"/"+json.month);
+        }
+        function ShowAlert() {
+            alert("Get Current Time Failed!");
+        }
+    </script>
     @RenderSection("scripts", required: false)
+
+
 </body>
 </html>
