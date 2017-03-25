@@ -41,10 +41,10 @@
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
             <p>執行時間:@ViewBag.DurationTime</p>
             <p>
-                @(Ajax.ActionLink("Get Day Of Week", "Date", "Home", new AjaxOptions()
+                @(Ajax.ActionLink("Get Date", "Date", "Home", new AjaxOptions()
             {
                 HttpMethod = "Post",
-                OnSuccess = "ShowTime",
+                OnSuccess = "ShowDate",
                 OnFailure = "ShowAlert"
             }))
             </p>
@@ -56,19 +56,23 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script>
-        function ShowTime(data) {
+        function ShowDate(data) {
             alert(data);
             alert(data.year+"/"+data.month+"/"+data.day);
-            var json = jQuery.parseJSON(data);
+            var json = jQuery.parseJSON(data);  //必定失敗 data已是JSON物件
             alert(json.year);
             alert(json.year +"/"+json.month);
         }
         function ShowAlert() {
-            alert("Get Current Time Failed!");
+            alert("Get Date Failed!");
         }
     </script>
     @RenderSection("scripts", required: false)
-
+    <script>
+        //$.getJSON("Home/Date", null, function (data) {
+        //    alert(data.year + "/" + data.month + "/" + data.day);
+        //}); //work
+    </script>
 
 </body>
 </html>
