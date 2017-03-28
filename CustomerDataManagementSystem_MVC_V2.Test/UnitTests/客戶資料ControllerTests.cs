@@ -51,6 +51,12 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
 
             mockRepo = Substitute.For<客戶資料Repository>();
             mockRepo.All().Returns(customers.AsQueryable());
+            mockRepo.When(x => x.Delete(Arg.Any<客戶資料>())).Do(arg =>
+            {
+                var entity = (客戶資料)arg[0];
+                entity.是否已刪除 = true;
+            });
+
 
             mockUnitOfWork = Substitute.For<IUnitOfWork>();
             mockRepo.UnitOfWork = mockUnitOfWork;

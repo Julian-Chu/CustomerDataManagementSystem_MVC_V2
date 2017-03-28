@@ -32,10 +32,10 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             this.repo = RepositoryHelper.Get客戶資料Repository();
             this.contactRepo = RepositoryHelper.Get客戶聯絡人Repository();
 
-            CreateCaregoryDic();
+            CreateCategoryDic();
         }
 
-        private void CreateCaregoryDic()
+        private void CreateCategoryDic()
         {
             var category = repo.All().Select(c => c.客戶分類).Distinct().ToList();
             int i = 1;
@@ -54,8 +54,10 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
 
         
         // GET: 客戶資料
-        public ActionResult Index(string keyword = "", string sortBy = "CustomerName", bool ascent = true)
+        public ActionResult Index(string keyword = "", string sortBy = "CustomerName", bool ascent = true, string selectedId = "0")
         {
+            var viewBag = ViewBag;
+            var modelstate = ModelState["sortBy"];
             var data = repo.All();
             data = data.Where(p => p.是否已刪除 == false && p.客戶名稱.Contains(keyword));
             switch (sortBy)
@@ -104,10 +106,13 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         [HttpPost]
         public ActionResult Index(string selectedId, string keyword = "")
         {
+            var modelstate = ModelState;
             var category = customerCategoryDic[selectedId];
             var data = repo.filter(keyword, category);
             List<SelectListItem> items = CreateSelectListItems();
             ViewBag.dep = items;
+            ViewBag.keyword = keyword;
+            ViewBag.selectedId = selectedId;
             return View(data.ToList());
         }
 
@@ -224,7 +229,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             客戶資料 客戶資料 = repo.Find(id);
-            客戶資料.是否已刪除 = true;
+            //客戶資料.是否已刪除 = true;
+            repo.Delete(客戶資料);
             repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
@@ -258,8 +264,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             if (disposing)
             {
-                var db = repo.UnitOfWork.Context;
-                db.Dispose();
+                repo.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }

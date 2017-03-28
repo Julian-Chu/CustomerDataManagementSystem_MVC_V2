@@ -3,18 +3,21 @@
 
 @{
     ViewBag.Title = "Index";
+    
 }
 
 <h2>客戶資料</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
-    @Html.Partial("SearchByKeyword")
+    @*@Html.Partial("SearchByKeyword")*@
+    
     
 </p>
 @using (Html.BeginForm())
 {
-
+    @*@Html.TextBox("keyword")*@
+    <input type="text" name="keyword" placeholder="keyword" value="@ViewBag.keyword"/>
 @Html.DropDownList("selectedId",(IEnumerable<SelectListItem>)ViewBag.dep) <input type="submit" value="filter" class="btn btn-xs" />
 
 
@@ -22,7 +25,7 @@
 <table class="table">
     <tr>
         <th>
-            <a href="@Url.Action("Index","客戶資料",new { sortBy="CustomerName" , ascent=true })" style="color:black">&Delta;</a>
+            <a href="@Url.Action("Index","客戶資料",new { sortBy="CustomerName" , ascent=true , keyword = ViewBag.keyword, selectedId = ViewBag.selectedId })" style="color:black">&Delta;</a>
             @Html.DisplayNameFor(model => model.客戶名稱)
             <a href="@Url.Action("Index","客戶資料",new { sortBy="CustomerName" , ascent=false })" style="color:black">&nabla;</a>
 

@@ -21,6 +21,11 @@ namespace CustomerDataManagementSystem_MVC_V2.Models
             return this.All().SingleOrDefault(customer => customer.帳號 == account);
         }
 
+        public override void Delete(客戶資料 entity)
+        {
+            entity.是否已刪除 = true;
+        }
+
         public IQueryable<客戶資料> filter(string keyword, string category)
         {
             var data = this.All().Where(p => p.是否已刪除 == false);
