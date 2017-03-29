@@ -30,7 +30,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         public 客戶資料Controller()
         {
             this.repo = RepositoryHelper.Get客戶資料Repository();
-            this.contactRepo = RepositoryHelper.Get客戶聯絡人Repository();
+            this.contactRepo = RepositoryHelper.Get客戶聯絡人Repository(repo.UnitOfWork);
 
             CreateCategoryDic();
         }
@@ -60,6 +60,14 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             var modelstate = ModelState["sortBy"];
             var data = repo.All();
             data = data.Where(p => p.是否已刪除 == false && p.客戶名稱.Contains(keyword));
+            data = SortBy(sortBy, ascent, data);
+            List<SelectListItem> items = CreateSelectListItems();
+            ViewBag.dep = items;
+            return View(data.ToList());
+        }
+
+        private IQueryable<客戶資料> SortBy(string sortBy, bool ascent, IQueryable<客戶資料> data)
+        {
             switch (sortBy)
             {
                 case "CustomerName":
@@ -87,9 +95,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
                     data = data.OrderBy(p => p.客戶名稱);
                     break;
             }
-            List<SelectListItem> items = CreateSelectListItems();
-            ViewBag.dep = items;
-            return View(data.ToList());
+
+            return data;
         }
 
         private List<SelectListItem> CreateSelectListItems()
@@ -110,7 +117,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             var category = customerCategoryDic[selectedId];
             var data = repo.filter(keyword, category);
             List<SelectListItem> items = CreateSelectListItems();
-            ViewBag.dep = items;
+            ViewBag.selectList = items;
             ViewBag.keyword = keyword;
             ViewBag.selectedId = selectedId;
             return View(data.ToList());

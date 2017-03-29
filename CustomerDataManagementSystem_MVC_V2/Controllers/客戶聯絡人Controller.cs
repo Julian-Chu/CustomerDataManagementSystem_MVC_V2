@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using System.Reflection;
 
 namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
@@ -20,7 +21,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         public 客戶聯絡人Controller()
         {
             this.contactRepo = RepositoryHelper.Get客戶聯絡人Repository();
-            this.customerRepo = RepositoryHelper.Get客戶資料Repository();
+            this.customerRepo = RepositoryHelper.Get客戶資料Repository(contactRepo.UnitOfWork);
             CreateCaregoryDic();
         }
 
@@ -56,36 +57,25 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         // GET: 客戶聯絡人
         public ActionResult Index(string keyword = "", string selectedId = "", string sortBy = "CustomerName", bool ascent = true)
         {
-            IQueryable<客戶聯絡人> data = contactRepo.All().Where(contact => contact.是否已刪除 == false &&
+            IQueryable<客戶聯絡人> data = contactRepo.All().Where(contact =>
             (contact.姓名.Contains(keyword) || contact.客戶資料.客戶名稱.Contains(keyword))).Include(客 => 客.客戶資料);
 
             if (jobTitleDic.ContainsKey(selectedId) && !string.IsNullOrEmpty(jobTitleDic[selectedId]))
             {
                 var jobTitle = jobTitleDic[selectedId];
-                if(jobTitle != "All") data = data.Where(p => p.職稱 == jobTitle);
+                if (jobTitle != "All") data = data.Where(p => p.職稱 == jobTitle);
             }
-
             switch (sortBy)
             {
                 case "JobTitle":
-                    if (ascent == true)
-                        data = data.OrderBy(p => p.職稱);
-                    else
-                        data = data.OrderByDescending(p => p.職稱);
+                    data = (ascent == true) ? data.OrderBy(p => p.職稱) : data = data.OrderByDescending(p => p.職稱);
                     break;
-
                 case "Name":
-                    if (ascent == true)
-                        data = data.OrderBy(p => p.姓名);
-                    else
-                        data = data.OrderByDescending(p => p.姓名);
+                    data = (ascent == true) ? data = data.OrderBy(p => p.姓名) : data = data.OrderByDescending(p => p.姓名);
                     break;
 
                 case "CustomerName":
-                    if (ascent == true)
-                        data = data.OrderBy(p => p.客戶資料.客戶名稱);
-                    else
-                        data = data.OrderByDescending(p => p.客戶資料.客戶名稱);
+                    data = (ascent == true) ? data.OrderBy(p => p.客戶資料.客戶名稱):data = data.OrderByDescending(p => p.客戶資料.客戶名稱);
                     break;
 
                 default:
@@ -94,23 +84,12 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             }
 
             var selectListItems = CreateSelectListItems();
-            if(!string.IsNullOrEmpty(selectedId)) selectListItems.FirstOrDefault(p => p.Value == selectedId).Selected = true;
+            if (!string.IsNullOrEmpty(selectedId)) selectListItems.FirstOrDefault(p => p.Value == selectedId).Selected = true;
+            ViewBag.keyword = keyword;
             ViewBag.jobTitles = selectListItems;
             return View(data.ToList());
         }
 
-        //[HttpPost]
-        //public ActionResult Index(, string keyword = "")
-        //{
-        //    var data = contactRepo.All().Where(contact => contact.是否已刪除 == false &&
-        //    (contact.姓名.Contains(keyword) || contact.客戶資料.客戶名稱.Contains(keyword))).Include(客 => 客.客戶資料);
-
-        //    var jobTitle = jobTitleDic[selectedId];
-        //    data = data.Where(p => p.職稱 == jobTitle);
-
-        //    ViewBag.jobTitles = CreateSelectListItems();
-        //    return View(data.ToList());
-        //}
 
         // GET: 客戶聯絡人/Details/5
         public ActionResult Details(int? id)
@@ -152,6 +131,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             return View(客戶聯絡人);
         }
 
+
         // GET: 客戶聯絡人/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -174,14 +154,15 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,客戶Id,職稱,姓名,Email,手機,電話")] 客戶聯絡人 客戶聯絡人)
+        public ActionResult Edit(int id, FormCollection form)
         {
-            if (ModelState.IsValid)
+            客戶聯絡人 客戶聯絡人 = contactRepo.Find(id);
+            if (TryUpdateModel<客戶聯絡人>(客戶聯絡人))
             {
-                contactRepo.UnitOfWork.Context.Entry(客戶聯絡人).State = EntityState.Modified;
                 contactRepo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
+
             ViewBag.客戶Id = new SelectList(customerRepo.All(), "Id", "客戶名稱", 客戶聯絡人.客戶Id);
             return View(客戶聯絡人);
         }

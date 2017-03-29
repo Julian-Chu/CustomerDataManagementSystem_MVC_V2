@@ -18,7 +18,7 @@
 {
     @*@Html.TextBox("keyword")*@
     <input type="text" name="keyword" placeholder="keyword" value="@ViewBag.keyword"/>
-@Html.DropDownList("selectedId",(IEnumerable<SelectListItem>)ViewBag.dep) <input type="submit" value="filter" class="btn btn-xs" />
+@Html.DropDownList("selectedId",(IEnumerable<SelectListItem>)ViewBag.selectList) <input type="submit" value="filter" class="btn btn-xs" />
 
 
 
