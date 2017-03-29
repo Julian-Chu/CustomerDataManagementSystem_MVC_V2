@@ -43,13 +43,12 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
                 return banks.SingleOrDefault(b => b.Id == id);
             });
 
-            //mockDbSet.Include("test").ReturnsForAnyArgs(mockDbSet);
 
             mockDbContext = Substitute.For<客戶資料DBEntities>();
             mockDbContext.客戶銀行資訊.Returns(mockDbSet);
 
             mockRepo = Substitute.For<客戶銀行資訊Repository>();
-            mockRepo.All().Returns(banks);
+            mockRepo.All().Returns(banks.Where(b=>b.是否已刪除==false));
             mockRepo.UnitOfWork = Substitute.For<IUnitOfWork>();
         }
 
@@ -57,10 +56,10 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
         public void Index_不顯示已刪除欄位資料()
         {
             //Assign
-            //var controller = new 客戶銀行資訊Controller(mockDbContext);
-            var controller = new 客戶銀行資訊Controller(mockRepo);
+            var controller = new 客戶銀行資訊StubController(mockRepo);
             //Act
-            banks.SingleOrDefault(b => b.Id == 0).是否已刪除 = true;
+            var test = banks.SingleOrDefault(b => b.Id == 0);
+            test.是否已刪除 = true;
             ViewResult result = controller.Index() as ViewResult;
             var data = result.Model as List<客戶銀行資訊>;
             //Assert
@@ -71,13 +70,26 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
         public void DeleteConfrimed_只在是否已刪除欄位改成true()
         {
             //Assign
-            var controller = new 客戶銀行資訊Controller(mockRepo);
+            var controller = new 客戶銀行資訊StubController(mockRepo);
             //Act
             int id = 0;
             var result = controller.DeleteConfirmed(id);
 
             //Assert
             Assert.AreEqual(true, banks.SingleOrDefault(b => b.Id == id).是否已刪除);
+        }
+    }
+
+    public class 客戶銀行資訊StubController:客戶銀行資訊Controller
+    {
+        public 客戶銀行資訊StubController(客戶銀行資訊Repository mockRepo)
+        {
+            this.bankRepo = mockRepo;
+        }
+
+        public 客戶銀行資訊StubController()
+        {
+
         }
     }
 }

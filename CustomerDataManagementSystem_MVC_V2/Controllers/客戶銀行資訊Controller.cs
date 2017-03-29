@@ -11,13 +11,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
     [計算Action時間]
     public class 客戶銀行資訊Controller : Controller
     {
-        private 客戶銀行資訊Repository bankRepo;
+        protected 客戶銀行資訊Repository bankRepo;
         private 客戶資料Repository customerRepo;
-
-        public 客戶銀行資訊Controller(客戶銀行資訊Repository mockRepo)
-        {
-            this.bankRepo = mockRepo;
-        }
 
         public 客戶銀行資訊Controller()
         {

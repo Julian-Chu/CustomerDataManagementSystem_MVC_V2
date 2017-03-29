@@ -17,15 +17,10 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
     [計算Action時間]
     public class 客戶資料Controller : Controller
     {
-        private 客戶資料Repository repo;
+        protected 客戶資料Repository repo;
         private 客戶聯絡人Repository contactRepo;
 
         private Dictionary<string, string> customerCategoryDic = new Dictionary<string, string>();
-
-        public 客戶資料Controller(客戶資料Repository mockRepo)
-        {
-            this.repo = mockRepo;
-        }
 
         public 客戶資料Controller()
         {
@@ -35,7 +30,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             CreateCategoryDic();
         }
 
-        private void CreateCategoryDic()
+        protected virtual void CreateCategoryDic()
         {
             var category = repo.All().Select(c => c.客戶分類).Distinct().ToList();
             int i = 1;
