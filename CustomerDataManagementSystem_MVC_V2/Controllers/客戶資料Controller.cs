@@ -13,7 +13,7 @@ using System.Web.Security;
 namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
     [Authorize]
-    [HandleError(View ="Error_ArgumentException",ExceptionType =typeof(ArgumentException))]
+    [HandleError(View = "Error_ArgumentException", ExceptionType = typeof(ArgumentException))]
     [計算Action時間]
     public class 客戶資料Controller : Controller
     {
@@ -47,17 +47,17 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             return View(tempRepo.All().ToList());
         }
 
-        
+
         // GET: 客戶資料
         public ActionResult Index(string keyword = "", string sortBy = "CustomerName", bool ascent = true, string selectedId = "0")
         {
-            var viewBag = ViewBag;
             var modelstate = ModelState["sortBy"];
             var data = repo.All();
             data = data.Where(p => p.是否已刪除 == false && p.客戶名稱.Contains(keyword));
             data = SortBy(sortBy, ascent, data);
             List<SelectListItem> items = CreateSelectListItems();
             ViewBag.dep = items;
+            ViewBag.客戶分類 = new SelectList(items, "Value", "Text", 0);
             return View(data.ToList());
         }
 
@@ -136,6 +136,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         }
 
         // GET: 客戶資料/Create
+        [客戶資料Droplist]
         public ActionResult Create()
         {
             return View();
@@ -146,6 +147,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [客戶資料Droplist]
+
         public ActionResult Create([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,客戶分類")] 客戶資料 客戶資料)
         {
             if (ModelState.IsValid)
@@ -159,6 +162,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         }
 
         // GET: 客戶資料/Edit/5
+        [客戶資料Droplist]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -182,26 +186,28 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,客戶分類")] 客戶資料 客戶資料, 
+        [客戶資料Droplist]
+        public ActionResult Edit(int id,
             客戶聯絡人[] contacts)
         {
-            if (ModelState.IsValid)
+            客戶資料 客戶資料 = repo.Find(id);
+            if (TryUpdateModel(客戶資料))
             {
-                var tempDB = repo.UnitOfWork.Context;
-                tempDB.Entry(客戶資料).State = EntityState.Modified;
 
-                foreach (var item in contacts)
+                if (contacts != null)
                 {
-                    客戶聯絡人 contact = contactRepo.Find(item.Id);
-                    contact.職稱 = item.職稱;
-                    //contact.姓名 = item.姓名;
-                    //contact.Email = item.Email;
-                    contact.手機 = item.手機;
-                    contact.電話 = item.電話;
-                    var DB = contactRepo.UnitOfWork.Context;
-                    DB.Entry(contact).State = EntityState.Modified;
+                    foreach (var item in contacts)
+                    {
+                        客戶聯絡人 contact = contactRepo.Find(item.Id);
+                        contact.職稱 = item.職稱;
+                        contact.手機 = item.手機;
+                        contact.電話 = item.電話;
+                        var DB = contactRepo.UnitOfWork.Context;
+                        DB.Entry(contact).State = EntityState.Modified;
+                    }
                 }
-                
+                var tempDB = repo.UnitOfWork.Context;
+                //tempDB.Entry(客戶資料).State = EntityState.Modified;
                 repo.UnitOfWork.Commit();
                 contactRepo.UnitOfWork.Commit();
 
@@ -209,6 +215,34 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             }
             return View(客戶資料);
         }
+
+        //public ActionResult Edit([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,客戶分類")] 客戶資料 客戶資料,
+        //    客戶聯絡人[] contacts)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+
+        //        if (contacts != null)
+        //        {
+        //            foreach (var item in contacts)
+        //            {
+        //                客戶聯絡人 contact = contactRepo.Find(item.Id);
+        //                contact.職稱 = item.職稱;
+        //                contact.手機 = item.手機;
+        //                contact.電話 = item.電話;
+        //                var DB = contactRepo.UnitOfWork.Context;
+        //                DB.Entry(contact).State = EntityState.Modified;
+        //            }
+        //        }
+        //        var tempDB = repo.UnitOfWork.Context;
+        //        tempDB.Entry(客戶資料).State = EntityState.Modified;
+        //        repo.UnitOfWork.Commit();
+        //        contactRepo.UnitOfWork.Commit();
+
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(客戶資料);
+        //}
 
         // GET: 客戶資料/Delete/5
         public ActionResult Delete(int? id)
@@ -250,7 +284,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             FormsIdentity id = (FormsIdentity)HttpContext.User.Identity;
             客戶資料 客戶資料 = repo.FindByAccount(id.Name);
-            if(TryUpdateModel(客戶資料, new string[] {"電話","傳真","地址","Email" }))
+            if (TryUpdateModel(客戶資料, new string[] { "電話", "傳真", "地址", "Email" }))
             {
                 string password = form["密碼"];
                 var passwordWithSHA1 = Crypto.SHA1(password);

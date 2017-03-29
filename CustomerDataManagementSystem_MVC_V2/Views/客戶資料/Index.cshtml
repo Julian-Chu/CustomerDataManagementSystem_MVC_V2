@@ -18,12 +18,14 @@
 {
     @*@Html.TextBox("keyword")*@
     <input type="text" name="keyword" placeholder="keyword" value="@ViewBag.keyword"/>
-@Html.DropDownList("selectedId",(IEnumerable<SelectListItem>)ViewBag.selectList) <input type="submit" value="filter" class="btn btn-xs" />
+@*@Html.DropDownList("selectedId",(IEnumerable<SelectListItem>)ViewBag.selectList) <input type="submit" value="filter" class="btn btn-xs" />*@
+@Html.DropDownList("dep") <input type="submit" value="filter" class="btn btn-xs" />
 
 
 
 <table class="table">
     <tr>
+
         <th>
             <a href="@Url.Action("Index","客戶資料",new { sortBy="CustomerName" , ascent=true , keyword = ViewBag.keyword, selectedId = ViewBag.selectedId })" style="color:black">&Delta;</a>
             @Html.DisplayNameFor(model => model.客戶名稱)

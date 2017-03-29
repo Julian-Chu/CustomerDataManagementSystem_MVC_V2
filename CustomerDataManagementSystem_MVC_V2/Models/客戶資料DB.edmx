@@ -27,8 +27,8 @@
           <Property Name="地址" Type="nvarchar" MaxLength="100" />
           <Property Name="Email" Type="nvarchar" MaxLength="250" />
           <Property Name="是否已刪除" Type="bit" Nullable="false" />
-          <Property Name="客戶分類" Type="nchar" MaxLength="10" />
-          <Property Name="帳號" Type="nchar" MaxLength="10" />
+          <Property Name="客戶分類" Type="nvarchar" MaxLength="50" />
+          <Property Name="帳號" Type="nvarchar" MaxLength="50" />
           <Property Name="密碼" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="客戶銀行資訊">
@@ -143,8 +143,8 @@ warning 6002: The table/view 'CBBD2D38B2CE56ECA3F9B179C63FB3FF_JECTS\CUSTOMERDAT
           <NavigationProperty Name="客戶銀行資訊" Relationship="Self.FK_客戶銀行資訊_客戶資料" FromRole="客戶資料" ToRole="客戶銀行資訊" />
           <NavigationProperty Name="客戶聯絡人" Relationship="Self.FK_客戶聯絡人_客戶資料" FromRole="客戶資料" ToRole="客戶聯絡人" />
           <Property Name="是否已刪除" Type="Boolean" Nullable="false" />
-          <Property Name="客戶分類" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="帳號" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="客戶分類" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="帳號" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="密碼" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="客戶銀行資訊">
