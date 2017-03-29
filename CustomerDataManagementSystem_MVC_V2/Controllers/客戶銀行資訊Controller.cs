@@ -1,6 +1,5 @@
 ﻿using CustomerDataManagementSystem_MVC_V2.ActionFilters;
 using CustomerDataManagementSystem_MVC_V2.Models;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -23,13 +22,13 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         public 客戶銀行資訊Controller()
         {
             this.bankRepo = RepositoryHelper.Get客戶銀行資訊Repository();
-            this.customerRepo = RepositoryHelper.Get客戶資料Repository();
+            this.customerRepo = RepositoryHelper.Get客戶資料Repository(bankRepo.UnitOfWork);
         }
 
         // GET: 客戶銀行資訊
-        public ActionResult Index(string keyword="")
+        public ActionResult Index(string keyword = "")
         {
-            var 客戶銀行資訊 = bankRepo.All().Where(b => b.是否已刪除 == false).AsQueryable();
+            var 客戶銀行資訊 = bankRepo.All();
 
             if (string.IsNullOrEmpty(keyword))
                 客戶銀行資訊 = 客戶銀行資訊.Where(b => b.銀行名稱.Contains(keyword) || b.客戶資料.客戶名稱.Contains(keyword))
@@ -100,14 +99,15 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,客戶Id,銀行名稱,銀行代碼,分行代碼,帳戶名稱,帳戶號碼")] 客戶銀行資訊 客戶銀行資訊)
+        public ActionResult Edir(int id, FormCollection form)
         {
-            if (ModelState.IsValid)
+            客戶銀行資訊 客戶銀行資訊 = bankRepo.Find(id);
+            if (TryUpdateModel(客戶銀行資訊))
             {
-                var db = bankRepo.UnitOfWork.Context;
-                db.Entry(客戶銀行資訊).State = EntityState.Modified;
+                bankRepo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
+
             ViewBag.客戶Id = new SelectList(customerRepo.All(), "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
 
             return View(客戶銀行資訊);
@@ -143,8 +143,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             if (disposing)
             {
-                var db = bankRepo.UnitOfWork.Context;
-                db.Dispose();
+                bankRepo.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }
