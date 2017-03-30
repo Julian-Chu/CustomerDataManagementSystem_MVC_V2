@@ -288,6 +288,9 @@
     <Compile Include="Models\客戶資料統計.cs">
       <DependentUpon>客戶資料DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\客戶資料統計.Partial.cs">
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\客戶資料統計Repository.cs">
       <DependentUpon>IRepository.EF6..tt</DependentUpon>
     </Compile>
