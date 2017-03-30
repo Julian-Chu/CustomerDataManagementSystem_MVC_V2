@@ -24,20 +24,20 @@
         <tr>
 
             <th>
-                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "CustomerName", ascent = true, keyword = ViewBag.keyword, selectedId = ViewBag.selectedId })" style="color:black">&Delta;</a>
+                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "CustomerName", ascent = true, keyword = ViewBag.keyword, selectedId = ViewBag.selectedId })" style="color:black">▲</a>
                 @Html.DisplayNameFor(model => model.客戶名稱)
-                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "CustomerName", ascent = false })" style="color:black">&nabla;</a>
-
+                @*<a href="@Url.Action("Index", "客戶資料", new { sortBy = "CustomerName", ascent = false })" style="color:black">▼</a>*@
+                <a href="?sortBy=CustomerName&ascent=false" class="OrderBy">▼</a>
             </th>
             <th>
-                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "VAT", ascent = true })" style="color:black">&Delta;</a>
+                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "VAT", ascent = true })" style="color:black">▲</a>
                 @Html.DisplayNameFor(model => model.統一編號)
-                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "VAT", ascent = false })" style="color:black">&nabla;</a>
+                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "VAT", ascent = false })" style="color:black">▼</a>
             </th>
             <th>
-                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "TEL", ascent = true })" style="color:black">&Delta;</a>
+                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "TEL", ascent = true })" style="color:black">▲</a>
                 @Html.DisplayNameFor(model => model.電話)
-                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "TEL", ascent = false })" style="color:black">&nabla;</a>
+                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "TEL", ascent = false })" style="color:black">▼</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.傳真)
@@ -86,6 +86,19 @@
     </table>
 }
 @Html.ActionLink("Download Excel", "客戶資料Excel", "File")
+
+<script type="text/javascript">
+    document.querySelector(".OrderBy").onclick = function () {
+        var items = document.querySelector(".OrderBy");
+        var newQueryString = items.getAttribute("href");
+        var e = document.getElementById("Type");
+        var selectedValue = e.options[e.selectedIndex].value;
+        var keyword = document.getElementById("keyword").value;
+        newQueryString = newQueryString + "&Type=" + selectedValue+"&keyword="+keyword;
+
+        items.setAttribute("href", newQueryString);
+    }
+</script>
 
 
 
