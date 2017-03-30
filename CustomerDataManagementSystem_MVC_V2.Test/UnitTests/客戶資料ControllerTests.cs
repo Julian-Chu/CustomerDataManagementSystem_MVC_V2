@@ -1,5 +1,6 @@
 ﻿using CustomerDataManagementSystem_MVC_V2.Controllers;
 using CustomerDataManagementSystem_MVC_V2.Models;
+using CustomerDataManagementSystem_MVC_V2.Models.ViewModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
             };
 
             mockRepo = Substitute.For<客戶資料Repository>();
-            mockRepo.All().Returns(customers.AsQueryable());
+            mockRepo.All().Returns(customers.Where(p=>p.是否已刪除==false).AsQueryable());
             mockRepo.When(x => x.Delete(Arg.Any<客戶資料>())).Do(arg =>
             {
                 var entity = (客戶資料)arg[0];
@@ -49,7 +50,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
             var controller = new 客戶資料StubController(mockRepo);
             //Act
             customers[0].是否已刪除 = true;
-            ViewResult result = controller.Index() as ViewResult;
+            ViewResult result = controller.Index(new 客戶資料篩選條件ViewModel() {keyword="", Type="" }) as ViewResult;
             List<客戶資料> data = result.Model as List<客戶資料>;
             //Assert
             Assert.AreEqual(3, data.Count);
@@ -96,4 +97,6 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
             
         }
     }
+
+
 }

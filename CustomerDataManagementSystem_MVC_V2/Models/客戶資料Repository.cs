@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using CustomerDataManagementSystem_MVC_V2.Models.ViewModels;
 
 namespace CustomerDataManagementSystem_MVC_V2.Models
 {
@@ -11,13 +12,13 @@ namespace CustomerDataManagementSystem_MVC_V2.Models
             return base.All().Where(c=>c.是否已刪除 == false);
         }
 
-        public IQueryable<客戶資料> Get客戶資料_含篩選排序條件(string keyword, string Type, string sortBy = "CustomerName", bool ascent = true)
+        public IQueryable<客戶資料> Get客戶資料_含篩選排序條件(客戶資料篩選條件ViewModel filter, string sortBy = "CustomerName", bool ascent = true)
         {
             var data = this.All();
-            if (!string.IsNullOrEmpty(keyword))
-                data = data.Where(p => p.客戶名稱.Contains(keyword));
-            if (!string.IsNullOrEmpty(Type))
-                data = data.Where(p => p.客戶分類 == Type);
+            if (!string.IsNullOrEmpty(filter.keyword))
+                data = data.Where(p => p.客戶名稱.Contains(filter.keyword));
+            if (!string.IsNullOrEmpty(filter.Type))
+                data = data.Where(p => p.客戶分類 == filter.Type);
             data = SortBy(sortBy, ascent, data);
 
             return data;

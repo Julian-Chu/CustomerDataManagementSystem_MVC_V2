@@ -1,5 +1,6 @@
 ﻿using CustomerDataManagementSystem_MVC_V2.ActionFilters;
 using CustomerDataManagementSystem_MVC_V2.Models;
+using CustomerDataManagementSystem_MVC_V2.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -50,14 +51,14 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
 
         // GET: 客戶資料
         [客戶資料Droplist]
-        public ActionResult Index(string keyword, string Type, string sortBy = "CustomerName", bool ascent = true)
+        public ActionResult Index(客戶資料篩選條件ViewModel filter, string sortBy = "CustomerName", bool ascent = true)
         {
-            var data = repo.Get客戶資料_含篩選排序條件(keyword, Type, sortBy, ascent);
+            var data = repo.Get客戶資料_含篩選排序條件(filter, sortBy, ascent);
 
             return View(data.ToList());
         }
 
-        
+
 
         private List<SelectListItem> CreateSelectListItems()
         {
@@ -68,19 +69,6 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             }
 
             return items;
-        }
-
-        [HttpPost]
-        public ActionResult Index(string selectedId, string keyword = "")
-        {
-            var modelstate = ModelState;
-            var category = customerCategoryDic[selectedId];
-            var data = repo.filter(keyword, category);
-            List<SelectListItem> items = CreateSelectListItems();
-            ViewBag.selectList = items;
-            ViewBag.keyword = keyword;
-            ViewBag.selectedId = selectedId;
-            return View(data.ToList());
         }
 
         // GET: 客戶資料/Details/5
