@@ -149,7 +149,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         [ValidateAntiForgeryToken]
         [客戶資料Droplist]
 
-        public ActionResult Create([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,客戶分類")] 客戶資料 客戶資料)
+        public ActionResult Create([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,客戶分類,帳號,密碼")] 客戶資料 客戶資料)
         {
             if (ModelState.IsValid)
             {
@@ -160,7 +160,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
 
             return View(客戶資料);
         }
-
+        
         // GET: 客戶資料/Edit/5
         [客戶資料Droplist]
         public ActionResult Edit(int? id)
