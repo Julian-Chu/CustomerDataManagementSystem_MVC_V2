@@ -89,14 +89,23 @@
 
 <script type="text/javascript">
     document.querySelector(".OrderBy").onclick = function () {
-        var items = document.querySelector(".OrderBy");
-        var newQueryString = items.getAttribute("href");
-        var e = document.getElementById("Type");
-        var selectedValue = e.options[e.selectedIndex].value;
-        var keyword = document.getElementById("keyword").value;
-        newQueryString = newQueryString + "&Type=" + selectedValue+"&keyword="+keyword;
+        //var items = document.querySelector(".OrderBy");
+        //var newQueryString = items.getAttribute("href");
+        //var e = document.getElementById("Type");
+        //var selectedValue = e.options[e.selectedIndex].value;
+        //var keyword = document.getElementById("keyword").value;
+        //newQueryString = newQueryString + "&Type=" + selectedValue+"&keyword="+keyword;
 
-        items.setAttribute("href", newQueryString);
+        //items.setAttribute("href", newQueryString);
+
+        var items = $("a.OrderBy");
+        var newQueryString = items.attr("href");
+        
+        var selectedValue = $("#Type").val();
+        var keyword = $("#keyword").val();
+        newQueryString = newQueryString + "&Type=" + selectedValue + "&keyword=" + keyword;
+        items.attr("href", newQueryString);
+
     }
 </script>
 
