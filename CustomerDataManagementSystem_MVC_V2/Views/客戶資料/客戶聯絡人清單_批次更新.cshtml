@@ -1,0 +1,73 @@
+﻿@model IEnumerable<CustomerDataManagementSystem_MVC_V2.Models.客戶聯絡人>
+
+<h2>客戶聯絡人</h2>
+
+@using (Html.BeginForm("BatchUpdateForContacts", "客戶資料", new {id = ViewContext.RouteData.Values["id"].ToString() }))
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.姓名)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.職稱)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.手機)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.電話)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
+            </th>
+            <th></th>
+        </tr>
+
+        @{
+            var data = Model.ToArray();
+        }
+
+        @*@foreach (var item in Model)*@
+        @for (int i = 0; i < data.Length; i++)
+        {
+                @*@Html.HiddenFor(modelItem => data[i].Id, new { name = String.Format("data[{0}].Id", i) })*@
+                <input type="hidden" id="@String.Format("data[{0}].Id", i)" name="@String.Format("data[{0}].Id", i)" value="@data[i].Id" />
+            <tr>
+                
+                @Html.ValidationMessageFor(modelItem => data[i].Id)
+                
+                <td>
+                    @Html.DisplayFor(modelItem => data[i].姓名)
+                   
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => data[i].Email)
+                </td>
+                <td>
+                    @Html.EditorFor(modelItem => data[i].職稱, null, String.Format("data[{0}].職稱", i))
+                    @*@Html.ValidationMessageFor(modelItem => data[i].職稱, "", new { @class = "text-danger" })*@
+                    @Html.ValidationMessage(String.Format("data[{0}].職稱", i))
+            </td>
+                <td>
+                    @Html.EditorFor(modelItem => data[i].手機, null, String.Format("data[{0}].手機", i))
+                    @*@Html.ValidationMessageFor(modelItem => data[i].手機, "test", new { @class = "text-danger", name= @String.Format("data[{0}].手機", i )})*@
+                    @Html.ValidationMessage(String.Format("data[{0}].手機", i))
+                </td>
+                <td>
+                    @Html.EditorFor(modelItem => data[i].電話, null, String.Format("data[{0}].電話", i))
+                    @*@Html.ValidationMessageFor(modelItem => data[i].電話, "", new { @class = "text-danger" })*@
+                    @Html.ValidationMessage(String.Format("data[{0}].電話", i))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => data[i].客戶資料.客戶名稱)
+                </td>
+            </tr>
+        }
+
+    </table>
+    <input type="submit" value="submit" class="btn btn-primary" />
+}

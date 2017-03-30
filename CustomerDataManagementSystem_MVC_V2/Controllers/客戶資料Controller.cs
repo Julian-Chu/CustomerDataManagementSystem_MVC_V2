@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web.Helpers;
@@ -86,6 +87,53 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
                 return HttpNotFound();
             }
             return View(客戶資料);
+        }
+
+        [HttpPost]
+        public ActionResult BatchUpdateForContacts(int? id, IList<客戶聯絡人批次更新ViewModel> data)
+        {
+            if (ModelState.IsValid)
+            {
+                客戶資料 客戶資料 = repo.Find(id);
+
+                if (data != null)
+                {
+                    foreach (var item in data)
+                    {
+                        客戶聯絡人 客戶聯絡人 = contactRepo.Find(item.Id);
+                        if (客戶聯絡人 != null)
+                        {
+                            客戶聯絡人.職稱 = item.職稱;
+                            客戶聯絡人.手機 = item.手機;
+                            客戶聯絡人.電話 = item.電話;
+                        }
+                    }
+                    repo.UnitOfWork.Commit();
+                }
+                return RedirectToAction("Details", new { id = id.Value });
+            }
+            else
+            {
+                foreach (var model in ModelState)
+                {
+                    if (!ModelState.IsValidField(model.Key))
+                    {
+                        foreach (var err in model.Value.Errors)
+                        {
+                            Debug.WriteLine(err.ErrorMessage);
+                        }
+                    }
+                }
+
+
+                客戶資料 客戶資料 = repo.Find(id);
+                if (客戶資料 == null)
+                {
+                    return HttpNotFound();
+                }
+                return View("Details", 客戶資料);
+            }
+
         }
 
         // GET: 客戶資料/Create

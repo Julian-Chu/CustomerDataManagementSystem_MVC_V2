@@ -213,6 +213,7 @@
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\客戶聯絡人Controller.cs" />
+    <Compile Include="Models\ViewModels\客戶聯絡人批次更新ViewModel.cs" />
     <Compile Include="Controllers\客戶資料Controller.cs" />
     <Compile Include="ActionFilters\客戶資料DroplistAttribute.cs" />
     <Compile Include="Controllers\客戶銀行資訊Controller.cs" />
@@ -417,6 +418,7 @@
     <Content Include="Views\Shared\_Layout_Metro.cshtml" />
     <Content Include="Views\Home\_ViewStart.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\客戶分類.cshtml" />
+    <Content Include="Views\客戶資料\客戶聯絡人清單_批次更新.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Excel\" />

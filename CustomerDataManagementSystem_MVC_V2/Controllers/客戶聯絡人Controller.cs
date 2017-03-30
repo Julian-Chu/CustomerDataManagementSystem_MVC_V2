@@ -55,7 +55,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         }
 
         // GET: 客戶聯絡人
-        public ActionResult Index(string keyword = "", string selectedId = "", string sortBy = "CustomerName", bool ascent = true)
+        public ActionResult Index(int? customerId,string keyword = "", string selectedId = "", string sortBy = "CustomerName", bool ascent = true)
         {
             IQueryable<客戶聯絡人> data = contactRepo.All().Where(contact =>
             (contact.姓名.Contains(keyword) || contact.客戶資料.客戶名稱.Contains(keyword))).Include(客 => 客.客戶資料);
@@ -87,6 +87,11 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             if (!string.IsNullOrEmpty(selectedId)) selectListItems.FirstOrDefault(p => p.Value == selectedId).Selected = true;
             ViewBag.keyword = keyword;
             ViewBag.jobTitles = selectListItems;
+            if (customerId.HasValue)
+            {
+                data = data.Where(c => c.客戶Id == customerId);
+                return PartialView(data.ToList());
+            }
             return View(data.ToList());
         }
 

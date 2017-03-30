@@ -60,7 +60,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
 
             //Act
             contacts.FirstOrDefault(c => c.Id == 0).是否已刪除 = true;
-            var result = controller.Index() as ViewResult;
+            var result = controller.Index(null) as ViewResult;
             var data = result.Model as List<客戶聯絡人>;
             //Assert
             Assert.AreEqual(3, data.Count);
