@@ -52,49 +52,12 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         [客戶資料Droplist]
         public ActionResult Index(string keyword, string Type, string sortBy = "CustomerName", bool ascent = true)
         {
-            var modelstate = ModelState["sortBy"];
-            var data = repo.All();
-            if (!string.IsNullOrEmpty(keyword))
-                data = data.Where(p => p.客戶名稱.Contains(keyword));
-            if (!string.IsNullOrEmpty(Type))
-                data = data.Where(p => p.客戶分類 == Type);
-            data = SortBy(sortBy, ascent, data);
+            var data = repo.Get客戶資料_含篩選排序條件(keyword, Type, sortBy, ascent);
 
             return View(data.ToList());
         }
 
-        private IQueryable<客戶資料> SortBy(string sortBy, bool ascent, IQueryable<客戶資料> data)
-        {
-            switch (sortBy)
-            {
-                case "CustomerName":
-                    if (ascent == true)
-                        data = data.OrderBy(p => p.客戶名稱);
-                    else
-                        data = data.OrderByDescending(p => p.客戶名稱);
-                    break;
-
-                case "VAT":
-                    if (ascent == true)
-                        data = data.OrderBy(p => p.統一編號);
-                    else
-                        data = data.OrderByDescending(p => p.統一編號);
-                    break;
-
-                case "TEL":
-                    if (ascent == true)
-                        data = data.OrderBy(p => p.電話);
-                    else
-                        data = data.OrderByDescending(p => p.電話);
-                    break;
-
-                default:
-                    data = data.OrderBy(p => p.客戶名稱);
-                    break;
-            }
-
-            return data;
-        }
+        
 
         private List<SelectListItem> CreateSelectListItems()
         {
