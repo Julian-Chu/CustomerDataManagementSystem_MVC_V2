@@ -49,15 +49,17 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
 
 
         // GET: 客戶資料
-        public ActionResult Index(string keyword = "", string sortBy = "CustomerName", bool ascent = true, string selectedId = "0")
+        [客戶資料Droplist]
+        public ActionResult Index(string keyword, string Type, string sortBy = "CustomerName", bool ascent = true)
         {
             var modelstate = ModelState["sortBy"];
             var data = repo.All();
-            data = data.Where(p => p.是否已刪除 == false && p.客戶名稱.Contains(keyword));
+            if (!string.IsNullOrEmpty(keyword))
+                data = data.Where(p => p.客戶名稱.Contains(keyword));
+            if (!string.IsNullOrEmpty(Type))
+                data = data.Where(p => p.客戶分類 == Type);
             data = SortBy(sortBy, ascent, data);
-            List<SelectListItem> items = CreateSelectListItems();
-            ViewBag.dep = items;
-            ViewBag.客戶分類 = new SelectList(items, "Value", "Text", 0);
+
             return View(data.ToList());
         }
 
@@ -151,7 +153,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
 
         public ActionResult Create([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,客戶分類,帳號,密碼")] 客戶資料 客戶資料)
         {
-            if(string.IsNullOrEmpty(客戶資料.密碼) )
+            if (string.IsNullOrEmpty(客戶資料.密碼))
             {
                 ModelState.AddModelError("密碼", "密碼必填");
                 return View(客戶資料);
@@ -167,7 +169,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
 
             return View(客戶資料);
         }
-        
+
         // GET: 客戶資料/Edit/5
         [客戶資料Droplist]
         public ActionResult Edit(int? id)
@@ -202,7 +204,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             string oldPassword = 客戶資料.密碼;
             if (TryUpdateModel(客戶資料))
             {
-                if(string.IsNullOrEmpty(客戶資料.密碼))
+                if (string.IsNullOrEmpty(客戶資料.密碼))
                 {
                     客戶資料.密碼 = oldPassword;
                 }

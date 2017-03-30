@@ -6,6 +6,10 @@ namespace CustomerDataManagementSystem_MVC_V2.Models
 {
     public class 客戶資料Repository : EFRepository<客戶資料>, I客戶資料Repository
     {
+        public override IQueryable<客戶資料> All()
+        {
+            return base.All().Where(c=>c.是否已刪除 == false);
+        }
         public 客戶資料 Find(int? id)
         {
             return this.All().SingleOrDefault(customer => customer.Id == id);
