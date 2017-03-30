@@ -153,6 +153,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         {
             if (ModelState.IsValid)
             {
+                客戶資料.密碼 = FormsAuthentication.HashPasswordForStoringInConfigFile(客戶資料.密碼, "SHA1");
                 repo.Add(客戶資料);
                 repo.UnitOfWork.Commit();
                 return RedirectToAction("Index", FormMethod.Get);
@@ -177,6 +178,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             }
             var contacts = contactRepo.All().Where(c => c.客戶Id == 客戶資料.Id);
             ViewBag.contacts = contacts.ToList();
+            客戶資料.密碼 = "";
 
             return View(客戶資料);
         }
@@ -191,8 +193,18 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
             客戶聯絡人[] contacts)
         {
             客戶資料 客戶資料 = repo.Find(id);
+            string oldPassword = 客戶資料.密碼;
             if (TryUpdateModel(客戶資料))
             {
+                if(string.IsNullOrEmpty(客戶資料.密碼))
+                {
+                    客戶資料.密碼 = oldPassword;
+                }
+                else
+                {
+                    客戶資料.密碼 = FormsAuthentication.HashPasswordForStoringInConfigFile(客戶資料.密碼, "SHA1");
+                }
+
 
                 if (contacts != null)
                 {
@@ -206,6 +218,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
                         DB.Entry(contact).State = EntityState.Modified;
                     }
                 }
+
+
                 var tempDB = repo.UnitOfWork.Context;
                 //tempDB.Entry(客戶資料).State = EntityState.Modified;
                 repo.UnitOfWork.Commit();
