@@ -151,9 +151,15 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
 
         public ActionResult Create([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,客戶分類,帳號,密碼")] 客戶資料 客戶資料)
         {
+            if(string.IsNullOrEmpty(客戶資料.密碼) )
+            {
+                ModelState.AddModelError("密碼", "密碼必填");
+                return View(客戶資料);
+            }
+
             if (ModelState.IsValid)
             {
-                客戶資料.密碼 = FormsAuthentication.HashPasswordForStoringInConfigFile(客戶資料.密碼, "SHA1");
+                客戶資料.對密碼進行雜湊();
                 repo.Add(客戶資料);
                 repo.UnitOfWork.Commit();
                 return RedirectToAction("Index", FormMethod.Get);
@@ -202,7 +208,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
                 }
                 else
                 {
-                    客戶資料.密碼 = FormsAuthentication.HashPasswordForStoringInConfigFile(客戶資料.密碼, "SHA1");
+                    客戶資料.對密碼進行雜湊();
                 }
 
 

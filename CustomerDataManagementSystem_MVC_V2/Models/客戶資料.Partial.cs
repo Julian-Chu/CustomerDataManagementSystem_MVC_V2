@@ -3,10 +3,15 @@ namespace CustomerDataManagementSystem_MVC_V2.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+    using System.Web.Security;
+
     [MetadataType(typeof(客戶資料MetaData))]
     public partial class 客戶資料
     {
+        public void 對密碼進行雜湊()
+        {
+            this.密碼 = FormsAuthentication.HashPasswordForStoringInConfigFile(this.密碼, "SHA1");
+        }
     }
     
     public partial class 客戶資料MetaData
