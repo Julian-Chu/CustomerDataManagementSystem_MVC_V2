@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ClosedXML, Version=0.86.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
       <HintPath>..\packages\ClosedXML.0.86.0\lib\net40\ClosedXML.dll</HintPath>
       <Private>True</Private>
@@ -212,7 +216,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\客戶專區Controller.cs" />
     <Compile Include="Controllers\客戶聯絡人Controller.cs" />
+    <Compile Include="Models\ViewModels\客戶專區_資料修改VM.cs" />
+    <Compile Include="Models\ViewModels\LoginVM.cs" />
     <Compile Include="Models\ViewModels\客戶聯絡人批次更新ViewModel.cs" />
     <Compile Include="Controllers\客戶資料Controller.cs" />
     <Compile Include="ActionFilters\客戶資料DroplistAttribute.cs" />
@@ -358,6 +365,7 @@
       <DependentUpon>客戶資料DB.edmx</DependentUpon>
     </Content>
     <Content Include="README.md" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -419,6 +427,8 @@
     <Content Include="Views\Home\_ViewStart.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\客戶分類.cshtml" />
     <Content Include="Views\客戶資料\客戶聯絡人清單_批次更新.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\客戶專區\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Excel\" />
@@ -426,7 +436,6 @@
     <Folder Include="font\" />
     <Folder Include="img\" />
     <Folder Include="js\" />
-    <Folder Include="Views\Account\" />
     <Folder Include="Views\File\" />
   </ItemGroup>
   <ItemGroup>
