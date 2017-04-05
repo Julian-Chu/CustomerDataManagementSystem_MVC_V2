@@ -21,6 +21,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Models
         
         [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]
         [Required]
+        [Display(Name ="customerName")]
         public string 客戶名稱 { get; set; }
         
         [StringLength(8, ErrorMessage="欄位長度不得大於 8 個字元")]

@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<CustomerDataManagementSystem_MVC_V2.Models.客戶資料>
+@using CustomerDataManagementSystem_MVC_V2.Models
 
 
 @{
     ViewBag.Title = "Index";
+    var temp = new 客戶資料();
 
 }
 
@@ -10,10 +12,10 @@
 
 <p>
     @Html.ActionLink("Create New", "Create")
-    @using (Html.BeginForm("Index","客戶資料",FormMethod.Get))
+    @using (Html.BeginForm("Index", "客戶資料", FormMethod.Get))
     {
         @Html.Editor("Type", "客戶分類");
-        @Html.TextBox("keyword",null,new {type="search", placeholder="input keyword" })
+        @Html.TextBox("keyword", null, new { type = "search", placeholder = "input keyword" })
         <input type="submit" value="submit" class="btn btn-default" />
     }
 
@@ -22,22 +24,26 @@
 {
     <table class="table">
         <tr>
+            @Html.LabelFor(model => model.First().客戶名稱)
+            @Html.DisplayFor(model => model.First().客戶名稱)
+            @Html.HiddenFor(model => model.First().客戶名稱)
+            @Html.NameFor(model => model.First().客戶名稱)
 
             <th>
-                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "CustomerName", ascent = true, keyword = ViewBag.keyword, selectedId = ViewBag.selectedId })" style="color:black">▲</a>
+                <a href="@Url.Action("Index", "客戶資料", new { sortBy = @Html.NameFor(model=> model.FirstOrDefault().客戶名稱), ascent = true, keyword = ViewBag.keyword, selectedId = ViewBag.selectedId })" style="color:black">▲</a>
                 @Html.DisplayNameFor(model => model.客戶名稱)
                 @*<a href="@Url.Action("Index", "客戶資料", new { sortBy = "CustomerName", ascent = false })" style="color:black">▼</a>*@
-                <a href="?sortBy=CustomerName&ascent=false" class="OrderBy">▼</a>
+                <a href="?sortBy=@Html.NameFor(model=>model.FirstOrDefault().客戶名稱)&ascent=false" class="OrderBy">▼</a>
             </th>
             <th>
-                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "VAT", ascent = true })" style="color:black">▲</a>
+                <a href="@Url.Action("Index", "客戶資料", new { sortBy = @Html.NameFor(model=>model.FirstOrDefault().統一編號), ascent = true })" style="color:black">▲</a>
                 @Html.DisplayNameFor(model => model.統一編號)
-                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "VAT", ascent = false })" style="color:black">▼</a>
+                <a href="@Url.Action("Index", "客戶資料", new { sortBy = @Html.NameFor(model=>model.FirstOrDefault().統一編號), ascent = false })" style="color:black">▼</a>
             </th>
             <th>
-                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "TEL", ascent = true })" style="color:black">▲</a>
+                <a href="@Url.Action("Index", "客戶資料", new { sortBy = @Html.NameFor(model => model.FirstOrDefault().電話), ascent = true })" style="color:black">▲</a>
                 @Html.DisplayNameFor(model => model.電話)
-                <a href="@Url.Action("Index", "客戶資料", new { sortBy = "TEL", ascent = false })" style="color:black">▼</a>
+                <a href="@Url.Action("Index", "客戶資料", new { sortBy = @Html.NameFor(model => model.FirstOrDefault().電話), ascent = false })" style="color:black">▼</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.傳真)
@@ -100,7 +106,7 @@
 
         var items = $("a.OrderBy");
         var newQueryString = items.attr("href");
-        
+
         var selectedValue = $("#Type").val();
         var keyword = $("#keyword").val();
         newQueryString = newQueryString + "&Type=" + selectedValue + "&keyword=" + keyword;
