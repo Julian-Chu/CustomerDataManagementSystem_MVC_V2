@@ -33,10 +33,11 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Log In" class="btn btn-default" />
+                <p id="errorMessage">@ViewBag.Incorrect</p>
+                <input type="submit" value="Log In" class="btn btn-default" id="submitBtn" />
             </div>
         </div>
-        @ViewBag.Incorrect
+        
     </div>
 }
 

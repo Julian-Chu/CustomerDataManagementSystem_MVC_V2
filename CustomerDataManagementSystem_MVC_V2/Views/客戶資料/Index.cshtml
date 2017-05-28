@@ -11,13 +11,13 @@
 <h2>Customers</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Customer", "Create", null, new{@class="btn btn-primary" })
     @using (Html.BeginForm("Index", "客戶資料", FormMethod.Get))
     {
         
         @Html.TextBox("keyword", null, new { type = "search", placeholder = "Keyword", @class="form-control" })
         <p style="white-space:nowrap">
-            @(Html.Editor("Type", "客戶分類"))<input type="submit" value="submit" class="btn btn-default btn-primary" />
+            @(Html.Editor("Type", "客戶分類"))<input type="submit" value="Sort" class="btn btn-default btn-success" />
         </p>
     }
 
@@ -89,7 +89,7 @@
         }
     </table>
 }
-@Html.ActionLink("Download Excel", "客戶資料Excel", "File")
+@Html.ActionLink("Download Excel", "客戶資料Excel", "File", new{@class = "btn btn-primary" })
 
 <script type="text/javascript">
     document.querySelector(".OrderBy").onclick = function () {

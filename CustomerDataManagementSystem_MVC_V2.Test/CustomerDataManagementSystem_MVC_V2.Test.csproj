@@ -105,7 +105,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="IntegrationTests\測試主選單上三個新增links.cs" />
+    <Compile Include="IntegrationTests\LinksTest.cs" />
     <Compile Include="IntegrationTests\LogTests.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

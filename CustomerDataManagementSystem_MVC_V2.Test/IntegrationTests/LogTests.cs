@@ -1,11 +1,7 @@
 using System;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Chrome;
 
 namespace SeleniumTests
@@ -17,7 +13,7 @@ namespace SeleniumTests
         private StringBuilder verificationErrors;
         private string baseURL;
         private bool acceptNextAlert = true;
-        
+
         [TestInitialize]
         public void SetupTest()
         {
@@ -26,7 +22,7 @@ namespace SeleniumTests
             baseURL = "http://localhost:53257/";
             verificationErrors = new StringBuilder();
         }
-        
+
         [TestCleanup]
         public void TeardownTest()
         {
@@ -40,7 +36,7 @@ namespace SeleniumTests
             }
             Assert.AreEqual("", verificationErrors.ToString());
         }
-        
+
         [TestMethod]
         public void TheTest()
         {
@@ -51,24 +47,23 @@ namespace SeleniumTests
             Assert.AreEqual("The Password field is required.", driver.FindElement(By.XPath("//div[2]/div/span/span")).Text);
             driver.Navigate().GoToUrl(baseURL + "/");
             driver.FindElement(By.Id("loginlink")).Click();
-            //driver.FindElement(By.Id("Username")).Clear();
-            driver.FindElement(By.Id("Username")).SendKeys("test1");
-            //driver.FindElement(By.Id("Password")).Clear();
-            driver.FindElement(By.Id("Password")).SendKeys("123");
-            //driver.FindElement(By.CssSelector("input.btn.btn-default")).Click();
+            driver.FindElement(By.Id("Username")).Clear();
+            driver.FindElement(By.Id("Username")).SendKeys("Incorrect");
+            driver.FindElement(By.Id("Password")).Clear();
+            driver.FindElement(By.Id("Password")).SendKeys("Incorrect");
             driver.FindElement(By.Id("submitBtn")).Click();
 
-            Assert.AreEqual("帳戶錯誤", driver.FindElement(By.CssSelector("span.field-validation-error.text-danger")).Text);
-            Assert.AreEqual("密碼錯誤", driver.FindElement(By.XPath("//div[3]/div/span")).Text);
+            Assert.AreEqual("Incorrect account or password!", driver.FindElement(By.Id("errorMessage")).Text);
             driver.FindElement(By.Id("Username")).Clear();
-            driver.FindElement(By.Id("Username")).SendKeys("test");
+            driver.FindElement(By.Id("Username")).SendKeys("admin");
             driver.FindElement(By.Id("Password")).Clear();
-            driver.FindElement(By.Id("Password")).SendKeys("1234");
-            driver.FindElement(By.CssSelector("input.btn.btn-default")).Click();
+            driver.FindElement(By.Id("Password")).SendKeys("12345678");
+            driver.FindElement(By.Id("submitBtn")).Click();
+
             driver.Navigate().GoToUrl(baseURL + "/");
-            Assert.AreEqual("Hello test", driver.FindElement(By.LinkText("Hello test")).Text);
-            driver.FindElement(By.LinkText("登出")).Click();
-            Assert.AreEqual("登入", driver.FindElement(By.Id("loginlink")).Text);
+            Assert.AreEqual("Hello, admin", driver.FindElement(By.LinkText("Hello, admin")).Text);
+            driver.FindElement(By.LinkText("Log Out")).Click();
+            Assert.AreEqual("Login", driver.FindElement(By.Id("loginlink")).Text);
         }
         private bool IsElementPresent(By by)
         {
@@ -82,7 +77,7 @@ namespace SeleniumTests
                 return false;
             }
         }
-        
+
         private bool IsAlertPresent()
         {
             try
@@ -95,18 +90,25 @@ namespace SeleniumTests
                 return false;
             }
         }
-        
-        private string CloseAlertAndGetItsText() {
-            try {
+
+        private string CloseAlertAndGetItsText()
+        {
+            try
+            {
                 IAlert alert = driver.SwitchTo().Alert();
                 string alertText = alert.Text;
-                if (acceptNextAlert) {
+                if (acceptNextAlert)
+                {
                     alert.Accept();
-                } else {
+                }
+                else
+                {
                     alert.Dismiss();
                 }
                 return alertText;
-            } finally {
+            }
+            finally
+            {
                 acceptNextAlert = true;
             }
         }

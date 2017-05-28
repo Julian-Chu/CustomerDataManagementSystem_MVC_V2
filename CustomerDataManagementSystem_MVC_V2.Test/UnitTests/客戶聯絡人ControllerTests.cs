@@ -1,11 +1,11 @@
-﻿using CustomerDataManagementSystem_MVC_V2.Controllers;
-using CustomerDataManagementSystem_MVC_V2.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using CustomerDataManagementSystem_MVC_V2.Controllers;
+using CustomerDataManagementSystem_MVC_V2.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 
 namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
 {
@@ -47,7 +47,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Test.UnitTests
             mockDBContext.客戶聯絡人.Returns(mockDbSet);
 
             mockRepo = Substitute.For<客戶聯絡人Repository>();
-            mockRepo.All().Returns(contacts);
+            mockRepo.All().Returns(contacts.Where(contact => contact.是否已刪除 == false));
             mockRepo.UnitOfWork = Substitute.For<IUnitOfWork>();
         }
 
