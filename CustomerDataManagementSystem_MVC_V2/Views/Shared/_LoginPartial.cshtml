@@ -11,9 +11,9 @@
                 @*@Html.Display("Hello," + User.Identity.GetUserName())*@
                 @*Hello, @User.Identity.GetUserName()*@
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">登出</a></li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Out</a></li>
             <li>
-                @Html.ActionLink("修改客戶資料", "修改客戶資料", "客戶資料")
+                @Html.ActionLink("My Data", "修改客戶資料", "客戶資料")
             </li>
         </ul>
     }
