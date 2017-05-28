@@ -28,7 +28,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
                 int id = -1;
                 if (form.Username == "admin")
                 {
-                    if (form.Password == "123")
+                    if (form.Password == "12345678")
                     {
                         id = 0;
                     }
