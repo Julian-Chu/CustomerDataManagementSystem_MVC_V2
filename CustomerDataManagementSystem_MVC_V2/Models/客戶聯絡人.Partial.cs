@@ -1,6 +1,5 @@
 namespace CustomerDataManagementSystem_MVC_V2.Models
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
@@ -49,24 +48,28 @@ namespace CustomerDataManagementSystem_MVC_V2.Models
         [Required]
         public int 客戶Id { get; set; }
 
-        [StringLength(50, ErrorMessage = "欄位長度不得大於 50 個字元")]
+        [StringLength(50, ErrorMessage = "Max Length is 50 words")]
         [Required]
+        [Display(Name = "Title")]
         public string 職稱 { get; set; }
 
-        [StringLength(50, ErrorMessage = "欄位長度不得大於 50 個字元")]
+        [StringLength(50, ErrorMessage = "Max Length is 50 words")]
         [Required]
+        [Display(Name = "Name")]
         public string 姓名 { get; set; }
 
-        [StringLength(250, ErrorMessage = "欄位長度不得大於 250 個字元")]
+        [StringLength(250, ErrorMessage = "Max Length is 250 words")]
         [Required]
         [EmailAddress]
         public string Email { get; set; }
 
-        [StringLength(50, ErrorMessage = "欄位長度不得大於 50 個字元")]
-        [RegularExpression(@"\d{4}-\d{6}", ErrorMessage = "不是正確的手機格式")]
+        [StringLength(50, ErrorMessage = "Max Length is 50 words")]
+        [RegularExpression(@"\d{4}-\d{6}", ErrorMessage = "Incorrect Format: Please input XXXX-XXXXXX")]
+        [Display(Name = "Mobile")]
         public string 手機 { get; set; }
 
-        [StringLength(50, ErrorMessage = "欄位長度不得大於 50 個字元")]
+        [StringLength(50, ErrorMessage = "Max Length is 50 words")]
+        [Display(Name = "Tel")]
         public string 電話 { get; set; }
 
         public virtual 客戶資料 客戶資料 { get; set; }
