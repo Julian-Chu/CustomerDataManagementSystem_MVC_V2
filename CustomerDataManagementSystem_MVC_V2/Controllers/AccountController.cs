@@ -1,8 +1,8 @@
-﻿using CustomerDataManagementSystem_MVC_V2.Models;
-using CustomerDataManagementSystem_MVC_V2.Models.ViewModels;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
+using CustomerDataManagementSystem_MVC_V2.Models;
+using CustomerDataManagementSystem_MVC_V2.Models.ViewModels;
 
 namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
@@ -47,7 +47,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
 
                 if (id >= 0)
                 {
-                    FormsAuthentication.RedirectFromLoginPage(id.ToString(), false);
+                    FormsAuthentication.RedirectFromLoginPage(form.Username, false);
                     return RedirectToAction("Index", "Home");
                 }
             }

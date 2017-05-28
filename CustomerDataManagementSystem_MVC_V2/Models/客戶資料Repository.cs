@@ -1,8 +1,6 @@
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using CustomerDataManagementSystem_MVC_V2.Models.ViewModels;
-using System.Reflection;
 
 namespace CustomerDataManagementSystem_MVC_V2.Models
 {
@@ -13,7 +11,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Models
             return base.All().Where(c => c.是否已刪除 == false);
         }
 
-        public IQueryable<客戶資料> Get客戶資料_含篩選排序條件(客戶資料篩選條件ViewModel filter, string sortBy = "CustomerName", bool ascent = true)
+        public IQueryable<客戶資料> Get客戶資料_含篩選排序條件(客戶資料篩選條件ViewModel filter, string sortBy = "客戶名稱", bool ascent = true)
         {
             var data = this.All();
             if (!string.IsNullOrEmpty(filter.keyword))
@@ -29,39 +27,12 @@ namespace CustomerDataManagementSystem_MVC_V2.Models
         {
             var dataEnum = data.AsEnumerable();
             if (ascent == true)
-                dataEnum = dataEnum.OrderBy(p => String.IsNullOrEmpty(sortBy) ? p.客戶名稱 : p.GetType().GetProperty(sortBy).GetValue(p));
+                dataEnum = dataEnum.OrderBy(p => p.GetType().GetProperty(sortBy)?.GetValue(p) ?? p.客戶名稱);
+
             else
-                dataEnum = dataEnum.OrderByDescending(p => String.IsNullOrEmpty(sortBy)? p.客戶名稱 : p.GetType().GetProperty(sortBy).GetValue(p));
-            //switch (sortBy)
-            //{
-            //    case "客戶名稱":
-            //        if (ascent == true)
-            //            data = data.OrderBy(p => p.客戶名稱);
-            //        else
-            //            data = data.OrderByDescending(p => p.客戶名稱);
-            //        break;
+                dataEnum = dataEnum.OrderByDescending(p => p.GetType().GetProperty(sortBy)?.GetValue(p) ?? p.客戶名稱);
 
-            //    case "統一編號":
-            //        if (ascent == true)
-            //            data = data.OrderBy(p => p.統一編號);
-            //        else
-            //            data = data.OrderByDescending(p => p.統一編號);
-            //        break;
-
-            //    case "電話":
-            //        if (ascent == true)
-            //            data = data.OrderBy(p => p.電話);
-            //        else
-            //            data = data.OrderByDescending(p => p.電話);
-            //        break;
-
-            //    default:
-            //        data = data.OrderBy(p => p.客戶名稱);
-            //        break;
-            //}
-
-            data = dataEnum.AsQueryable();
-            return data;
+            return  dataEnum.AsQueryable();
         }
 
         public 客戶資料 Find(int? id)
