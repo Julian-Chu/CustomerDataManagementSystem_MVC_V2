@@ -50,6 +50,8 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
                     FormsAuthentication.RedirectFromLoginPage(form.Username, false);
                     return RedirectToAction("Index", "Home");
                 }
+
+                ViewBag.Incorrect = "Incorrect account or password!";
             }
             return View();
         }

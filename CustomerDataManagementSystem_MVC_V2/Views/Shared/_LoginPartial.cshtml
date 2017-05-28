@@ -6,24 +6,25 @@
     {
         @Html.AntiForgeryToken();
         <ul class="nav navbar-nav navbar-right">
+            @{ string name = User.Identity.GetUserName();}
             <li>
-                @Html.ActionLink("Hello, " + User.Identity.GetUserName(), "Index", "Home", routeValues: null, htmlAttributes: new { title = "CurrentUser" })
-                @*@Html.Display("Hello," + User.Identity.GetUserName())*@
-                @*Hello, @User.Identity.GetUserName()*@
+                @Html.ActionLink("Hello, " + name, "Index", "Home", routeValues: null, htmlAttributes: new { title = "CurrentUser" })
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Out</a></li>
+            @if (name != "admin")
+            {
             <li>
                 @Html.ActionLink("My Data", "修改客戶資料", "客戶資料")
             </li>
+            }
         </ul>
-    }
-}
-else
-{
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Login", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginlink" })
-        </li>
-    </ul>
-
-}
+                    }
+                }
+                else
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            @Html.ActionLink("Login", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginlink" })
+                        </li>
+                    </ul>
+                }
