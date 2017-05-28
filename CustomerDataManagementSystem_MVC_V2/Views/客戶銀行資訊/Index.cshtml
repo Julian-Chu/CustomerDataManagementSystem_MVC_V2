@@ -4,10 +4,10 @@
     ViewBag.Title = "Index";
 }
 
-<h2>客戶銀行資訊</h2>
+<h2>Banks</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create",null,new {@class="btn btn-primary" })
     @Html.Partial("SearchByKeyword")
 </p>
 <table class="table">
@@ -62,5 +62,5 @@
 }
 
 </table>
-@Html.ActionLink("Download Excel", "客戶銀行資訊Excel", "File")
+@Html.ActionLink("Download Excel", "客戶銀行資訊Excel", "File",new { @class="btn btn-primary"})
 
