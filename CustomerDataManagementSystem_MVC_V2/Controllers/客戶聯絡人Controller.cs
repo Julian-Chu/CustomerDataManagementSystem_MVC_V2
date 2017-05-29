@@ -10,6 +10,7 @@ using CustomerDataManagementSystem_MVC_V2.Models;
 namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
     [計算Action時間]
+    [Authorize]
     public class 客戶聯絡人Controller : Controller
     {
         private 客戶聯絡人Repository contactRepo;

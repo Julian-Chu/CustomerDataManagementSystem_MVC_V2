@@ -46,13 +46,42 @@ namespace SeleniumTests
             Assert.IsTrue(Customerslink.Equals(driver.Url, StringComparison.InvariantCultureIgnoreCase));
 
             driver.FindElement(By.LinkText("Customer Data Management")).Click();
+            string ContactPersonslink = "http://localhost:53257/Account/Login?ReturnUrl=%2f%E5%AE%A2%E6%88%B6%E8%81%AF%E7%B5%A1%E4%BA%BA";
+            driver.FindElement(By.LinkText("Contact Persons")).Click();
+            Assert.IsTrue(ContactPersonslink.Equals(driver.Url, StringComparison.InvariantCultureIgnoreCase));
+            driver.FindElement(By.LinkText("Customer Data Management")).Click();
+            string BanksLinks = "http://localhost:53257/Account/Login?ReturnUrl=%2f%E5%AE%A2%E6%88%B6%E9%8A%80%E8%A1%8C%E8%B3%87%E8%A8%8A";
+            driver.FindElement(By.LinkText("Banks")).Click();
+            Assert.IsTrue(BanksLinks.Equals(driver.Url, StringComparison.InvariantCultureIgnoreCase));
+            driver.FindElement(By.LinkText("Customer Data Management")).Click();
+        }
+
+        [TestMethod]
+        public void LinksWithLogIn()
+        {
+            driver.Navigate().GoToUrl(baseURL + "/");
+            driver.FindElement(By.Id("loginlink")).Click();
+            driver.FindElement(By.Id("Username")).Clear();
+            driver.FindElement(By.Id("Username")).SendKeys("admin");
+            driver.FindElement(By.Id("Password")).Clear();
+            driver.FindElement(By.Id("Password")).SendKeys("12345678");
+            driver.FindElement(By.Id("submitBtn")).Click();
+
+            driver.Navigate().GoToUrl(baseURL + "/");
+            Assert.AreEqual("admin", driver.FindElement(By.LinkText("admin")).Text);
+
+            driver.Navigate().GoToUrl(baseURL + "/");
+            string Customerslink = "http://localhost:53257/%E5%AE%A2%E6%88%B6%E8%B3%87%E6%96%99";
+            driver.FindElement(By.LinkText("Customers")).Click();
+            Assert.IsTrue(Customerslink.Equals(driver.Url, StringComparison.InvariantCultureIgnoreCase));
+
+            driver.FindElement(By.LinkText("Customer Data Management")).Click();
             string ContactPersonslink = "http://localhost:53257/%E5%AE%A2%E6%88%B6%E8%81%AF%E7%B5%A1%E4%BA%BA";
             driver.FindElement(By.LinkText("Contact Persons")).Click();
             Assert.IsTrue(ContactPersonslink.Equals(driver.Url, StringComparison.InvariantCultureIgnoreCase));
             driver.FindElement(By.LinkText("Customer Data Management")).Click();
             string BanksLinks = "http://localhost:53257/%E5%AE%A2%E6%88%B6%E9%8A%80%E8%A1%8C%E8%B3%87%E8%A8%8A";
             driver.FindElement(By.LinkText("Banks")).Click();
-            //Assert.AreEqual("http://localhost:53257/%E5%AE%A2%E6%88%B6%E9%8A%80%E8%A1%8C%E8%B3%87%E8%A8%8A", driver.Url);
             Assert.IsTrue(BanksLinks.Equals(driver.Url, StringComparison.InvariantCultureIgnoreCase));
             driver.FindElement(By.LinkText("Customer Data Management")).Click();
         }

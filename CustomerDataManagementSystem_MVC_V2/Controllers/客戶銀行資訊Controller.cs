@@ -9,6 +9,7 @@ using System.Web.Mvc;
 namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
     [計算Action時間]
+    [Authorize]
     public class 客戶銀行資訊Controller : Controller
     {
         protected 客戶銀行資訊Repository bankRepo;
