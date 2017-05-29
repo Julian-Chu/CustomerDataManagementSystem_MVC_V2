@@ -43,8 +43,8 @@ namespace SeleniumTests
             driver.Navigate().GoToUrl(baseURL + "/");
             driver.FindElement(By.Id("loginlink")).Click();
             driver.FindElement(By.Id("submitBtn")).Click();
-            Assert.AreEqual("The Username field is required.", driver.FindElement(By.CssSelector("span.text-danger.field-validation-error > span")).Text);
-            Assert.AreEqual("The Password field is required.", driver.FindElement(By.XPath("//div[2]/div/span/span")).Text);
+            Assert.AreEqual("The Username field is required.", driver.FindElement(By.CssSelector("span#UsernameError.text-danger.field-validation-error > span")).Text);
+            Assert.AreEqual("The Password field is required.", driver.FindElement(By.CssSelector("span#PasswordError.text-danger.field-validation-error > span")).Text);
             driver.Navigate().GoToUrl(baseURL + "/");
             driver.FindElement(By.Id("loginlink")).Click();
             driver.FindElement(By.Id("Username")).Clear();
@@ -61,8 +61,10 @@ namespace SeleniumTests
             driver.FindElement(By.Id("submitBtn")).Click();
 
             driver.Navigate().GoToUrl(baseURL + "/");
-            Assert.AreEqual("Hello, admin", driver.FindElement(By.LinkText("Hello, admin")).Text);
-            driver.FindElement(By.LinkText("Log Out")).Click();
+            Assert.AreEqual("admin", driver.FindElement(By.LinkText("admin")).Text);
+            driver.FindElement(By.CssSelector("a.btn.dropdown-toggle")).Click();
+            //driver.FindElement(By.LinkText("Log Out")).Click();
+            driver.FindElement(By.Id("logout")).Click();
             Assert.AreEqual("Login", driver.FindElement(By.Id("loginlink")).Text);
         }
         private bool IsElementPresent(By by)

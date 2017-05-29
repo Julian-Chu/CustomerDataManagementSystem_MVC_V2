@@ -38,7 +38,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
                 {
                     var repo = RepositoryHelper.Get客戶資料Repository();
                     var hashPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(form.Password, "SHA1");
-                    var item = repo.All().SingleOrDefault(p => p.帳號 == form.Username && p.密碼 == hashPassword);
+                    var item = repo.All().ToList().SingleOrDefault(p => p.帳號 == form.Username && p.密碼 == hashPassword);
                     if (item != null)
                     {
                         id = item.Id;

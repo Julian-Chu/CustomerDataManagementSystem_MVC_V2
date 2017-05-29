@@ -22,7 +22,7 @@
                     {
                         <li><a href=@Url.Action("修改客戶資料", "客戶資料")><i class="halflings-icon user"></i>My Profile</a></li>
                     }
-                    <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="halflings-icon off"></i> Logout</a></li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()" id="logout"><i class="halflings-icon off"></i> Log Out</a></li>
                 </ul>
             </li>
             @*<li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="halflings-icon off" style="color:wheat"></i> </a></li>
@@ -41,7 +41,7 @@
                         @*<li>
                             @Html.ActionLink("Login", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginlink", @class = "glyphicon glyphicon-log-in" })
                         </li>*@
-                        <li><a href=@Url.Action("Login", "Account") class="btn"><i class="halflings-icon white off" ></i><span>Login</span></a></li>
+                        <li><a href=@Url.Action("Login", "Account") class="btn" id="loginlink"><i class="halflings-icon white off" ></i><span>Login</span></a></li>
 
 
                     </ul>
