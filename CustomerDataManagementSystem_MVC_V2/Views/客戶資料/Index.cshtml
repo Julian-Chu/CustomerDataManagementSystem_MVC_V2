@@ -81,9 +81,9 @@
                     @Html.DisplayFor(modelItem => item.客戶分類)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Edit", "Edit", null,new { id = item.Id , @class="label label-success"}) 
+                    @Html.ActionLink("Details", "Details", null, new { id = item.Id, @class = "label label-info" }) 
+                    @Html.ActionLink("Delete", "Delete", null, new { id = item.Id, @class = "label label-warning" })
                 </td>
             </tr>
         }
