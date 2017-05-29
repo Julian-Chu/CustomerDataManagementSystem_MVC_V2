@@ -8,23 +8,41 @@
         <ul class="nav navbar-nav navbar-right">
             @{ string name = User.Identity.GetUserName();}
             <li>
-                @Html.ActionLink("Hello, " + name, "Index", "Home", routeValues: null, htmlAttributes: new { title = "CurrentUser" })
+                @*                @Html.ActionLink("Hello, " + name, "Index", "Home", routeValues: null, htmlAttributes: new { title = "CurrentUser", style= "font: 15px arial bold, sans-serif;" })*@
+
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="halflings-icon white user"></i> @name
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-menu-title">
+                        <span>Account Settings</span>
+                    </li>
+                    @if (name != "admin")
+                    {
+                        <li><a href=@Url.Action("修改客戶資料", "客戶資料")><i class="halflings-icon user"></i>My Profile</a></li>
+                    }
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="halflings-icon off"></i> Logout</a></li>
+                </ul>
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Out</a></li>
+            @*<li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="halflings-icon off" style="color:wheat"></i> </a></li>
             @if (name != "admin")
             {
-            <li>
-                @Html.ActionLink("My Data", "修改客戶資料", "客戶資料")
-            </li>
-            }
+                <li>
+                    @Html.ActionLink("My Data", "修改客戶資料", "客戶資料")
+                </li>
+            }*@
         </ul>
                     }
                 }
                 else
                 {
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            @Html.ActionLink("Login", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginlink" })
-                        </li>
+                        @*<li>
+                            @Html.ActionLink("Login", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginlink", @class = "glyphicon glyphicon-log-in" })
+                        </li>*@
+                        <li><a href=@Url.Action("Login", "Account") class="btn"><i class="halflings-icon white off" ></i><span>Login</span></a></li>
+
+
                     </ul>
                 }

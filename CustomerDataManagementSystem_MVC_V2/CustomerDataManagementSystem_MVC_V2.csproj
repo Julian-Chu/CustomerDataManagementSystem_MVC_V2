@@ -216,8 +216,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Layout\LayoutController.cs" />
     <Compile Include="Controllers\客戶專區Controller.cs" />
     <Compile Include="Controllers\客戶聯絡人Controller.cs" />
+    <Compile Include="Helpers\CustomHelpers.cs" />
     <Compile Include="Models\ViewModels\客戶專區_資料修改VM.cs" />
     <Compile Include="Models\ViewModels\LoginVM.cs" />
     <Compile Include="Models\ViewModels\客戶聯絡人批次更新ViewModel.cs" />
@@ -331,6 +333,23 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="icon.html" />
+    <Content Include="Layout\calendar.html" />
+    <Content Include="Layout\chart.html" />
+    <Content Include="Layout\file-manager.html" />
+    <Content Include="Layout\form.html" />
+    <Content Include="Layout\gallery.html" />
+    <Content Include="Layout\icon.html" />
+    <Content Include="Layout\index.html" />
+    <Content Include="Layout\login.html" />
+    <Content Include="Layout\messages.html" />
+    <Content Include="Layout\submenu.html" />
+    <Content Include="Layout\submenu2.html" />
+    <Content Include="Layout\submenu3.html" />
+    <Content Include="Layout\table.html" />
+    <Content Include="Layout\tasks.html" />
+    <Content Include="Layout\typography.html" />
+    <Content Include="Layout\ui.html" />
+    <Content Include="Layout\widgets.html" />
     <Content Include="login.html" />
     <Content Include="messages.html" />
     <Content Include="Models\EFGeneratePartialClass.tt">
@@ -366,6 +385,7 @@
     </Content>
     <Content Include="README.md" />
     <Content Include="ClassDiagram1.cd" />
+    <Content Include="Layout\README.md" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -429,13 +449,18 @@
     <Content Include="Views\客戶資料\客戶聯絡人清單_批次更新.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\客戶專區\Index.cshtml" />
+    <Content Include="Views\Layout\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Excel\" />
     <Folder Include="css\" />
     <Folder Include="font\" />
     <Folder Include="img\" />
-    <Folder Include="js\" />
+    <Folder Include="js\Layout\" />
+    <Folder Include="Layout\css\" />
+    <Folder Include="Layout\font\" />
+    <Folder Include="Layout\img\" />
+    <Folder Include="Layout\js\" />
     <Folder Include="Views\File\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,35 +1,38 @@
 ﻿@model CustomerDataManagementSystem_MVC_V2.Models.客戶資料
 
 @{
-    ViewBag.Title = "修改客戶資料";
+    ViewBag.Title = "My Profile";
 }
 
-<h2>修改客戶資料</h2>
+<h2>My Profile</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
+    <div class="form-horizontal"></div>
     <div class="form-horizontal">
+        <form>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="control-group" style="display:inline">
+
+                @(Html.LabelFor(model => model.客戶名稱, htmlAttributes: new { @class = "control-label col-md-2" }) )
+                <div class="col-md-10">
+                    @(Html.DisplayFor(model => model.客戶名稱))
+                    @Html.ValidationMessageFor(model => model.客戶名稱, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.統一編號, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(model => model.統一編號, new { htmlAttributes = new { @class = "control-dis col-md-2" } })
+                    @Html.ValidationMessageFor(model => model.統一編號, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </form>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.客戶名稱, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.客戶名稱, new { htmlAttributes = new { @class = "control-dis col-md-2" } })
-                @Html.ValidationMessageFor(model => model.客戶名稱, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.統一編號, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.統一編號, new { htmlAttributes = new { @class = "control-label col-md-2" } })
-                @Html.ValidationMessageFor(model => model.統一編號, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.電話, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -63,14 +66,14 @@
         </div>
 
         @*<div class="form-group">
-            @Html.LabelFor(model => model.是否已刪除, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.是否已刪除)
-                    @Html.ValidationMessageFor(model => model.是否已刪除, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.是否已刪除, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.是否已刪除)
+                        @Html.ValidationMessageFor(model => model.是否已刪除, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
-        </div>*@
+            </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.客戶分類, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -95,6 +98,7 @@
                 @Html.ValidationMessageFor(model => model.密碼, "", new { @class = "text-danger" })
             </div>
         </div>
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
