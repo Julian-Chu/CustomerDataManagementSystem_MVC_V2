@@ -1,12 +1,11 @@
-﻿using CustomerDataManagementSystem_MVC_V2.ActionFilters;
-using CustomerDataManagementSystem_MVC_V2.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using System.Reflection;
+using CustomerDataManagementSystem_MVC_V2.ActionFilters;
+using CustomerDataManagementSystem_MVC_V2.Models;
 
 namespace CustomerDataManagementSystem_MVC_V2.Controllers
 {
@@ -55,10 +54,13 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
         }
 
         // GET: 客戶聯絡人
-        public ActionResult Index(int? customerId,string keyword = "", string selectedId = "", string sortBy = "CustomerName", bool ascent = true)
+        public ActionResult Index(int? customerId, string keyword = "", string selectedId = "", string sortBy = "CustomerName", bool ascent = true)
         {
             IQueryable<客戶聯絡人> data = contactRepo.All().Where(contact =>
-            (contact.姓名.Contains(keyword) || contact.客戶資料.客戶名稱.Contains(keyword))).Include(客 => 客.客戶資料);
+            (contact.姓名.Contains(keyword) || contact.客戶資料.客戶名稱.Contains(keyword) ||
+            contact.職稱.Contains(keyword) || contact.Email.Contains(keyword)
+
+            )).Include(客 => 客.客戶資料);
 
             if (jobTitleDic.ContainsKey(selectedId) && !string.IsNullOrEmpty(jobTitleDic[selectedId]))
             {
@@ -75,7 +77,7 @@ namespace CustomerDataManagementSystem_MVC_V2.Controllers
                     break;
 
                 case "CustomerName":
-                    data = (ascent == true) ? data.OrderBy(p => p.客戶資料.客戶名稱):data = data.OrderByDescending(p => p.客戶資料.客戶名稱);
+                    data = (ascent == true) ? data.OrderBy(p => p.客戶資料.客戶名稱) : data = data.OrderByDescending(p => p.客戶資料.客戶名稱);
                     break;
 
                 default:
